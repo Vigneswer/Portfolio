@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e ' *)",
+      "Bash(node -e \"console.log\\('ogl', require\\('./node_modules/ogl/package.json'\\).version\\)\")",
+      "Bash(node -e \"console.log\\(Object.keys\\(require\\('./package.json'\\).dependencies\\).join\\(' '\\)\\)\")",
+      "Bash(npm uninstall *)",
+      "Bash(node opening.mjs)",
+      "Bash(node /Users/druvinosystems/Documents/portfolio/scripts/build-hero-plate.mjs)",
+      "Bash(rm -f /Users/druvinosystems/Documents/portfolio/public/hero-portrait.jpg)",
+      "Bash(node flight.mjs)",
+      "Bash(node -e \"const p=require\\('./package.json'\\);console.log\\(Object.keys\\(p.dependencies\\).join\\(' '\\)\\)\")",
+      "Bash(cp /Users/druvinosystems/Documents/portfolio/scripts/build-opening-plate.mjs ./gen.mjs)",
+      "Bash(node gen.mjs)",
+      "Bash(rm -f /Users/druvinosystems/Documents/portfolio/public/portrait.jpg /Users/druvinosystems/Documents/portfolio/public/hero-field.jpg)"
+    ]
+  }
+}
