@@ -28,8 +28,8 @@ export const ARCADE: ArcadeGame[] = [
   {
     id: "flagged",
     name: "FLAGGED",
-    tagline: "you are the misinformation classifier",
-    desc: "News posts arrive with photos. Swipe right if it's real, left if it's fake — the picture is usually the clue.",
+    tagline: "tap the lie, not just the post",
+    desc: "News posts with photos — some carry one lie. Don't just call it fake: tap the exact detail that's lying. Wrong accusation costs you too.",
     projectId: "malayalam",
     index: "02",
   },
