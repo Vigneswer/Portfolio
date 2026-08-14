@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useScrollSpin } from "../../hooks/useScrollMotion";
+import { DecodeText } from "./DecodeText";
 import MaskedHeading from "./MaskedHeading";
 
 type Props = {
@@ -25,9 +26,9 @@ export function Section({ id, index, title, kicker, children }: Props) {
   return (
     <section
       id={id}
-      className="relative mx-auto w-full max-w-[88rem] scroll-mt-20 px-5 py-24 sm:px-8 sm:py-32"
+      className="relative mx-auto w-full max-w-[88rem] scroll-mt-20 px-5 py-16 sm:px-8 sm:py-24 lg:py-32"
     >
-      <div className="mb-12 flex items-start gap-5">
+      <div className="mb-10 flex items-start gap-5 sm:mb-12">
         <motion.span
           style={{ rotate: numeralSpin }}
           className="type-label mt-3 inline-flex h-9 w-9 shrink-0 items-center justify-center border border-ink/25 text-ink-faint"
@@ -66,7 +67,7 @@ export function Section({ id, index, title, kicker, children }: Props) {
               transition={{ delay: 0.35, duration: 0.6 }}
               className="type-label mt-4 text-ink-faint"
             >
-              {kicker}
+              <DecodeText text={kicker} />
             </motion.p>
           ) : null}
         </div>

@@ -33,6 +33,10 @@ export type ScrollExpandProps = {
   holdDistance?: number;
   smoothing?: number;
   overlayScrim?: number;
+  /** Pixels of pointer-driven pan on the media while the frame is at rest.
+      Fades out as the frame expands so it never fights the scroll animation.
+      0 disables (default, and reduced-motion always disables). */
+  pointerParallax?: number;
   useWindowScroll?: boolean;
   enabled?: boolean;
   children?: React.ReactNode;
@@ -56,6 +60,7 @@ export default function ScrollExpand({
   holdDistance = 0.35,
   smoothing = 0.1,
   overlayScrim = 0.45,
+  pointerParallax = 0,
   useWindowScroll = false,
   enabled = true,
   children,
@@ -85,6 +90,7 @@ export default function ScrollExpand({
     overlayScrim,
     useWindowScroll,
     enabled,
+    pointerParallax,
   });
   propsRef.current = {
     startWidth,
@@ -98,13 +104,20 @@ export default function ScrollExpand({
     overlayScrim,
     useWindowScroll,
     enabled,
+    pointerParallax,
   };
+
+  // Pointer pan state (-0.5..0.5 each axis) and the last applied progress, so
+  // pointer movement can re-render the current frame without a scroll event.
+  const pointerRef = useRef({ x: 0, y: 0, tx: 0, ty: 0 });
+  const lastProgressRef = useRef(0);
 
   const applyProgress = useCallback((p: number) => {
     const frame = frameRef.current;
     const media = mediaRef.current;
     if (!frame || !media) return;
     const c = propsRef.current;
+    lastProgressRef.current = p;
 
     const e = smoothstep(0, 1, p);
 
@@ -115,7 +128,13 @@ export default function ScrollExpand({
     const r = c.startRadius + (c.endRadius - c.startRadius) * e;
     frame.style.clipPath = `inset(${iy}% ${ix}% ${iy}% ${ix}% round ${r}px)`;
 
-    media.style.transform = `scale(${c.mediaZoom + (1 - c.mediaZoom) * e})`;
+    // Pointer pan, strongest at rest and gone by the time the frame is open —
+    // the still plate leans with the hand, the opening belongs to the scroll.
+    const pt = pointerRef.current;
+    const damp = c.pointerParallax * (1 - e);
+    media.style.transform =
+      `scale(${c.mediaZoom + (1 - c.mediaZoom) * e}) ` +
+      `translate3d(${(-pt.x * damp).toFixed(2)}px, ${(-pt.y * damp * 0.7).toFixed(2)}px, 0)`;
 
     if (scrimRef.current) scrimRef.current.style.opacity = `${c.overlayScrim * e}`;
 
@@ -216,6 +235,35 @@ export default function ScrollExpand({
     current = target;
     applyProgress(current);
 
+    /* Pointer pan while at rest. Its own small lerp loop that re-applies the
+       current progress frame; it only runs while the pointer is actually
+       settling, so idle cost is zero. */
+    let panRaf = 0;
+    const panTick = () => {
+      const pt = pointerRef.current;
+      pt.x += (pt.tx - pt.x) * 0.08;
+      pt.y += (pt.ty - pt.y) * 0.08;
+      applyProgress(lastProgressRef.current);
+      panRaf =
+        Math.abs(pt.tx - pt.x) + Math.abs(pt.ty - pt.y) > 0.001
+          ? requestAnimationFrame(panTick)
+          : 0;
+    };
+    const onPointerPan = (e: PointerEvent) => {
+      if (reduceMotion || propsRef.current.pointerParallax <= 0) return;
+      const r = stage.getBoundingClientRect();
+      pointerRef.current.tx = (e.clientX - r.left) / r.width - 0.5;
+      pointerRef.current.ty = (e.clientY - r.top) / r.height - 0.5;
+      if (!panRaf) panRaf = requestAnimationFrame(panTick);
+    };
+    const onPointerOut = () => {
+      pointerRef.current.tx = 0;
+      pointerRef.current.ty = 0;
+      if (!panRaf) panRaf = requestAnimationFrame(panTick);
+    };
+    stage.addEventListener("pointermove", onPointerPan, { passive: true });
+    stage.addEventListener("pointerleave", onPointerOut);
+
     const scroller: Window | HTMLDivElement = useWindowScroll ? window : root;
     scroller.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize);
@@ -224,6 +272,9 @@ export default function ScrollExpand({
 
     return () => {
       if (raf) cancelAnimationFrame(raf);
+      if (panRaf) cancelAnimationFrame(panRaf);
+      stage.removeEventListener("pointermove", onPointerPan);
+      stage.removeEventListener("pointerleave", onPointerOut);
       scroller.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
       ro.disconnect();

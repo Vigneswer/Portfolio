@@ -1,3 +1,5 @@
+import { Suspense, lazy, useEffect, useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import { Hero } from "./components/hero/Hero";
 import { Opening } from "./components/opening/Opening";
 import { About } from "./components/sections/About";
@@ -23,8 +25,24 @@ const TICKER_ONE = [
 
 const TICKER_TWO = skills.flatMap((g) => g.items.map((s) => s.name));
 
+// The arcade ships in its own chunk — nobody pays for it until they hit play.
+const Arcade = lazy(() => import("./components/game/Arcade"));
+
 export default function App() {
   const pointer = usePointerField();
+  // Which arcade screen to open: a specific game id, "menu", or closed.
+  const [arcade, setArcade] = useState<string | null>(null);
+
+  // Fired by the nav, the Work section, case studies and the terminal's
+  // `play` command (see game/registry.ts).
+  useEffect(() => {
+    const onPlay = (e: Event) => {
+      const detail = (e as CustomEvent<{ game?: string }>).detail;
+      setArcade(detail?.game ?? "menu");
+    };
+    window.addEventListener("vg:play", onPlay);
+    return () => window.removeEventListener("vg:play", onPlay);
+  }, []);
 
   return (
     <>
@@ -39,6 +57,17 @@ export default function App() {
       <Grain />
       <Cursor />
       <Nav />
+
+      <AnimatePresence>
+        {arcade && (
+          <Suspense fallback={null}>
+            <Arcade
+              initial={arcade as "menu"}
+              onExit={() => setArcade(null)}
+            />
+          </Suspense>
+        )}
+      </AnimatePresence>
 
       <main>
         <Opening />

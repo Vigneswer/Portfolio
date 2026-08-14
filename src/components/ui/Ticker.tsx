@@ -25,6 +25,13 @@ export function Ticker({ items, direction = 1, className }: Props) {
   const skewX = useTransform(velocity, (v) => v * -9);
   const scaleY = useTransform(velocity, (v) => 1 + Math.abs(v) * 0.06);
 
+  // Archivo carries a live width axis, so momentum can deform the *letterforms*
+  // themselves: fling the page and the type physically widens, then relaxes.
+  // Driven as a CSS variable so one motion value styles every span.
+  const wdth = useTransform(velocity, (v) =>
+    Math.min(96 + Math.abs(v) * 60, 125).toFixed(1),
+  );
+
   const strip = [...items, ...items, ...items];
 
   return (
@@ -32,10 +39,16 @@ export function Ticker({ items, direction = 1, className }: Props) {
       className={`relative flex w-full overflow-hidden border-y border-ink/15 bg-paper-deep py-3 ${className ?? ""}`}
       aria-hidden="true"
     >
-      <motion.div style={{ x, skewX, scaleY }} className="flex shrink-0 whitespace-nowrap">
+      <motion.div
+        style={{ x, skewX, scaleY, "--tk-wdth": wdth } as React.ComponentProps<typeof motion.div>["style"]}
+        className="flex shrink-0 whitespace-nowrap"
+      >
         {strip.map((item, i) => (
           <span key={i} className="flex items-center">
-            <span className="type-display-tight px-5 text-[clamp(1rem,2.4vw,1.75rem)] text-ink">
+            <span
+              className="type-display-tight px-5 text-[clamp(1rem,2.4vw,1.75rem)] text-ink"
+              style={{ fontVariationSettings: '"wght" 700, "wdth" var(--tk-wdth, 96)' }}
+            >
               {item}
             </span>
             <span

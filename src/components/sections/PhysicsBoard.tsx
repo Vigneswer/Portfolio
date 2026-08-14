@@ -2,10 +2,11 @@ import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import type { Project } from "../../content/profile";
 import { useMagnetic } from "../../hooks/useMagnetic";
+import { DecodeText } from "../ui/DecodeText";
 
 type Props = {
   projects: Project[];
-  onOpen: (id: string) => void;
+  onOpen: (id: string, from?: DOMRect) => void;
 };
 
 /**
@@ -132,7 +133,8 @@ export function PhysicsBoard({ projects, onOpen }: Props) {
             const v = b.vertices;
             return Matter.Vertices.contains(v, mouse.position);
           });
-          if (hit >= 0) onOpen(projects[hit].id);
+          if (hit >= 0)
+            onOpen(projects[hit].id, cards[hit]?.getBoundingClientRect());
         }
       });
 
@@ -272,6 +274,7 @@ export function PhysicsBoard({ projects, onOpen }: Props) {
     <div className="relative">
       <div
         ref={sceneRef}
+        data-cursor-label="drag"
         className="relative h-[26rem] w-full touch-pan-y overflow-hidden border border-ink/15 bg-paper-deep/40 sm:h-[30rem]"
       >
         {/* Cursor light. Follows the pointer across the board on its own
@@ -353,7 +356,8 @@ export function PhysicsBoard({ projects, onOpen }: Props) {
                   cardRefs.current[i] = el;
                 }}
                 type="button"
-                onClick={() => onOpen(p.id)}
+                onClick={(e) => onOpen(p.id, e.currentTarget.getBoundingClientRect())}
+                data-cursor-label="open"
                 style={{ opacity: ready ? 1 : 0 }}
                 className="absolute left-0 top-0 w-[15rem] cursor-grab select-none border border-ink bg-paper p-4 text-left shadow-[4px_4px_0_0_var(--color-ink)] transition-opacity duration-500 will-change-transform active:cursor-grabbing sm:w-[17rem]"
               >
@@ -378,7 +382,9 @@ export function PhysicsBoard({ projects, onOpen }: Props) {
       </div>
 
       <div className="mt-4 flex items-center justify-between gap-4">
-        <p className="type-label text-ink-faint">drag them · throw them · click to open</p>
+        <p className="type-label text-ink-faint">
+          <DecodeText text="drag them · throw them · click to open" />
+        </p>
 
         <div className="relative shrink-0">
           {/* Ping ring. Fires on a long cycle so the button catches the eye in

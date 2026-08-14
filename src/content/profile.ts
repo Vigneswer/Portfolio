@@ -26,8 +26,9 @@ export const links = {
   email: "vigneswervigneswer2003@gmail.com",
   github: "https://github.com/Vigneswer",
   linkedin: "https://linkedin.com/in/vigneswer-v",
-  /** Drop the PDF in /public and set this to "/Vigneswer_V.pdf" to expose it. */
-  resume: null as string | null,
+  /** Served from /public — the terminal `resume` command and the contact
+      button both read this. */
+  resume: "/Vigneswer_V.pdf" as string | null,
 } as const;
 
 /* --------------------------------------------------------------------------

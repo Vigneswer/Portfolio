@@ -131,6 +131,7 @@ export function Terminal() {
   return (
     <section
       aria-label="Interactive terminal"
+      data-cursor-label="type"
       className="group relative w-full border border-ink/15 bg-paper-deep/60 backdrop-blur-[2px]"
       onClick={() => inputRef.current?.focus()}
     >

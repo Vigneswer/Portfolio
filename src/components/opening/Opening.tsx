@@ -1,4 +1,5 @@
 import { profile } from "../../content/profile";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
 import ScrollExpand from "./ScrollExpand";
 
 /**
@@ -15,6 +16,10 @@ import ScrollExpand from "./ScrollExpand";
  * reads well at every crop and every viewport.
  */
 export function Opening() {
+  // On a phone the desktop proportions (32 × 62) produce a thin vertical
+  // sliver; the resting frame should read as a plate, not a bookmark.
+  const narrow = useMediaQuery("(max-width: 640px)");
+
   return (
     <section id="top" aria-label="Introduction" className="relative w-full bg-paper">
       <ScrollExpand
@@ -27,8 +32,8 @@ export function Opening() {
            headline wide enough to read spills outside the resting frame onto
            bare paper. The name lands once, in the hero below. */
         scrollHint="scroll to open"
-        startWidth={32}
-        startHeight={62}
+        startWidth={narrow ? 62 : 32}
+        startHeight={narrow ? 44 : 62}
         startRadius={2}
         endRadius={0}
         /* The plate is a texture, so a real zoom-out is legible here in a way
@@ -39,6 +44,9 @@ export function Opening() {
         holdDistance={0.4}
         smoothing={0.09}
         overlayScrim={0.4}
+        /* The still plate leans with the hand before the first scroll — the
+           site is alive from the first pointer movement, not the first wheel. */
+        pointerParallax={30}
       >
         <p className="type-label mb-5 text-paper/70">
           <span
@@ -46,7 +54,8 @@ export function Opening() {
             style={{ backgroundColor: "var(--signal)" }}
             aria-hidden="true"
           />
-          {profile.role} · {profile.location}
+          <span className="whitespace-nowrap">{profile.role}</span> ·{" "}
+          <span className="whitespace-nowrap">{profile.location}</span>
         </p>
 
         <p className="type-display max-w-[22ch] text-[clamp(1.125rem,2.9vw,2.35rem)] text-paper">

@@ -8,6 +8,7 @@ import {
 } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { skills } from "../../content/profile";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { usePrefersReducedMotion } from "../../hooks/usePrefersReducedMotion";
 import { useScrollSpin } from "../../hooks/useScrollMotion";
 import { Section } from "../ui/Section";
@@ -75,7 +76,7 @@ function Dial({ active, onFocusIndex, hovered }: DialProps) {
     if (!el) return;
     const ro = new ResizeObserver(() => {
       const size = Math.min(el.clientWidth, el.clientHeight);
-      setRadius(Math.max(96, size / 2 - 62));
+      setRadius(Math.max(96, size / 2 - 74));
     });
     ro.observe(el);
     return () => ro.disconnect();
@@ -100,22 +101,34 @@ function Dial({ active, onFocusIndex, hovered }: DialProps) {
           cy="50"
           r="41"
           fill="none"
-          stroke="color-mix(in srgb, var(--color-ink) 10%, transparent)"
-          strokeWidth="1.4"
+          stroke="color-mix(in srgb, var(--color-ink) 8%, transparent)"
+          strokeWidth="1"
         />
+        {/* Drawn in ink, not signal — a gauge needle, not a paint stripe.
+            The signal is reserved for the marker, the head dot and the
+            active label, so one hue means exactly one thing: "current". */}
         <motion.circle
           cx="50"
           cy="50"
           r="41"
           fill="none"
-          stroke="var(--signal)"
-          strokeWidth="2.4"
+          stroke="color-mix(in srgb, var(--color-ink) 55%, transparent)"
+          strokeWidth="1.6"
           strokeLinecap="round"
           pathLength={1}
           initial={false}
           animate={{ pathLength: current.weight }}
           transition={{ type: "spring", stiffness: 120, damping: 20 }}
         />
+        {/* Signal dot riding the head of the arc. */}
+        <motion.g
+          initial={false}
+          animate={{ rotate: current.weight * 360 }}
+          transition={{ type: "spring", stiffness: 120, damping: 20 }}
+          style={{ transformOrigin: "50px 50px" }}
+        >
+          <circle cx="91" cy="50" r="2.2" fill="var(--signal)" stroke="var(--color-ink)" strokeWidth="0.5" />
+        </motion.g>
       </svg>
 
       {/* Marker + needle at twelve o'clock */}
@@ -161,11 +174,14 @@ function Dial({ active, onFocusIndex, hovered }: DialProps) {
 
         {FLAT.map((s, i) => {
           const angle = i * STEP;
+          // Two alternating orbits, so long neighbouring labels never crowd
+          // each other as they pass the marker.
+          const orbit = radius - (i % 2) * 30;
           return (
             <div
               key={s.name}
               className="absolute left-1/2 top-1/2 h-0 w-0"
-              style={{ transform: `rotate(${angle}deg) translateY(-${radius}px)` }}
+              style={{ transform: `rotate(${angle}deg) translateY(-${orbit}px)` }}
             >
               {/* Three nested rotations about the same zero-size point:
                   counter-spin the ring, then undo this item's placement angle,
@@ -178,14 +194,22 @@ function Dial({ active, onFocusIndex, hovered }: DialProps) {
                     onPointerEnter={() => onFocusIndex(i)}
                     onPointerLeave={() => onFocusIndex(null)}
                     className="type-label absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2 cursor-pointer whitespace-nowrap px-2 py-1 transition-all duration-300"
-                    style={{
-                      color:
-                        i === active
-                          ? "var(--color-ink)"
-                          : "color-mix(in srgb, var(--color-ink) 34%, transparent)",
-                      backgroundColor: i === active ? "var(--signal)" : "transparent",
-                      transform: `translate(-50%, -50%) scale(${i === active ? 1.08 : 1})`,
-                    }}
+                    style={(() => {
+                      // The two labels flanking the active one pass right
+                      // behind its chip at the marker — ghost them while
+                      // they're neighbours so the chip always reads clean.
+                      const n = FLAT.length;
+                      const isNeighbor =
+                        i === (active + 1) % n || i === (active - 1 + n) % n;
+                      return {
+                        color:
+                          i === active
+                            ? "var(--color-ink)"
+                            : `color-mix(in srgb, var(--color-ink) ${isNeighbor ? 10 : 34}%, transparent)`,
+                        backgroundColor: i === active ? "var(--signal)" : "transparent",
+                        transform: `translate(-50%, -50%) scale(${i === active ? 1.08 : 1})`,
+                      };
+                    })()}
                   >
                     {s.name}
                   </button>
@@ -207,14 +231,17 @@ function Dial({ active, onFocusIndex, hovered }: DialProps) {
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             exit={{ opacity: 0, y: -10, filter: "blur(6px)" }}
             transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-            className="type-display-tight max-w-[9.5rem] text-[clamp(1.1rem,3.2vw,1.65rem)] leading-tight text-ink"
+            className="type-display-tight max-w-[11rem] text-[clamp(1.1rem,3.2vw,1.65rem)] leading-tight text-ink [text-wrap:balance]"
           >
             {current.name}
           </motion.span>
         </AnimatePresence>
 
-        <span className="type-label mt-3 tabular-nums text-ink-soft">
-          {Math.round(current.weight * 100)}
+        <span className="mt-3 flex items-baseline gap-1 font-mono">
+          <span className="type-display-tight text-xl tabular-nums text-ink">
+            {Math.round(current.weight * 100)}
+          </span>
+          <span className="type-label text-ink-faint">/ 100</span>
         </span>
       </div>
     </div>
@@ -223,6 +250,9 @@ function Dial({ active, onFocusIndex, hovered }: DialProps) {
 
 export function Skills() {
   const reduced = usePrefersReducedMotion();
+  // The dial needs elbow room for its orbiting labels; below lg it clips at
+  // both edges, so it simply doesn't mount there — the list is the section.
+  const hasRoom = useMediaQuery("(min-width: 1024px)");
   const [hovered, setHovered] = useState<number | null>(null);
   const [scrollActive, setScrollActive] = useState(0);
 
@@ -231,15 +261,17 @@ export function Skills() {
 
   const onFocusIndex = useCallback((i: number | null) => setHovered(i), []);
 
+  const showDial = !reduced && hasRoom;
+
   return (
     <Section
       id="skills"
       index="04"
       title="Skills"
-      kicker={reduced ? "by depth" : "scroll to turn the dial · hover to hold one"}
+      kicker={showDial ? "scroll to turn the dial · hover to hold one" : "by depth"}
     >
       <div className="grid items-center gap-14 lg:grid-cols-[1fr_1fr]">
-        {!reduced && (
+        {showDial && (
           <DialWithScrollIndex
             hovered={hovered}
             active={active}
@@ -258,44 +290,58 @@ export function Skills() {
               <ul className="space-y-1">
                 {g.items.map((s) => {
                   const i = FLAT.findIndex((f) => f.name === s.name);
-                  const isActive = !reduced && i === active;
+                  const isActive = showDial && i === active;
                   return (
                     <li
                       key={s.name}
-                      onPointerEnter={() => !reduced && setHovered(i)}
-                      onPointerLeave={() => !reduced && setHovered(null)}
-                      className="group relative -mx-2 cursor-default px-2 py-1.5 transition-colors duration-300"
+                      onPointerEnter={() => showDial && setHovered(i)}
+                      onPointerLeave={() => showDial && setHovered(null)}
+                      className="group relative -mx-3 cursor-default px-3 py-1.5 transition-colors duration-300"
                       style={{
+                        // Quiet paper wash + a signal spine — an underline of
+                        // attention, not a highlighter dragged across the row.
                         backgroundColor: isActive
-                          ? "color-mix(in srgb, var(--signal) 22%, transparent)"
+                          ? "color-mix(in srgb, var(--color-ink) 5%, transparent)"
                           : "transparent",
+                        boxShadow: isActive
+                          ? "inset 2px 0 0 0 var(--signal)"
+                          : "none",
                       }}
                     >
                       <div className="mb-1 flex items-baseline justify-between gap-4">
                         <span className="type-body flex items-center gap-2 text-ink">
                           <span
                             aria-hidden="true"
-                            className="inline-block h-1.5 w-1.5 shrink-0 rotate-45 transition-all duration-300"
+                            className="inline-block h-1.5 w-1.5 shrink-0 transition-all duration-300"
                             style={{
                               backgroundColor: isActive
-                                ? "var(--color-ink)"
-                                : "color-mix(in srgb, var(--color-ink) 25%, transparent)",
+                                ? "var(--signal)"
+                                : "color-mix(in srgb, var(--color-ink) 22%, transparent)",
                               transform: `rotate(45deg) scale(${isActive ? 1.4 : 1})`,
                             }}
                           />
                           {s.name}
                         </span>
-                        <span className="type-label tabular-nums text-ink-faint">
+                        <span
+                          className="type-label tabular-nums transition-colors duration-300"
+                          style={{
+                            color: isActive
+                              ? "var(--color-ink)"
+                              : "color-mix(in srgb, var(--color-ink) 45%, transparent)",
+                          }}
+                        >
                           {Math.round(s.weight * 100)}
                         </span>
                       </div>
-                      <div className="h-[3px] w-full bg-ink/12">
+                      {/* Ink hairlines by default; the signal only lands on the
+                          row you're actually pointing at (or the dial is). */}
+                      <div className="h-[2px] w-full bg-ink/10">
                         <motion.div
-                          className="h-full origin-left"
+                          className="h-full origin-left transition-colors duration-300"
                           style={{
                             backgroundColor: isActive
-                              ? "var(--color-ink)"
-                              : "var(--signal)",
+                              ? "var(--signal)"
+                              : "color-mix(in srgb, var(--color-ink) 40%, transparent)",
                           }}
                           initial={{ scaleX: 0 }}
                           whileInView={{ scaleX: s.weight }}

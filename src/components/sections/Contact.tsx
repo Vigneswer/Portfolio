@@ -1,10 +1,9 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { links, profile } from "../../content/profile";
 import { useMagnetic } from "../../hooks/useMagnetic";
 import { usePrefersReducedMotion } from "../../hooks/usePrefersReducedMotion";
 import { Section } from "../ui/Section";
-import { SpinSeal } from "../ui/SpinSeal";
 
 const CHANNELS = [
   { label: "email", value: links.email, href: `mailto:${links.email}` },
@@ -21,6 +20,7 @@ function Channel({ label, value, href }: (typeof CHANNELS)[number]) {
       href={href}
       target={href.startsWith("mailto:") ? undefined : "_blank"}
       rel="noreferrer"
+      data-cursor-label={label === "email" ? "say hello" : "visit"}
       className="group flex items-baseline justify-between gap-6 border-b border-ink/15 py-5 transition-colors hover:border-ink"
     >
       <span className="type-label text-ink-faint transition-colors group-hover:text-ink">
@@ -90,6 +90,90 @@ function CopyEmail() {
   );
 }
 
+/**
+ * Replaces the old spinning seal — decoration that answered nothing. This is
+ * a small status instrument instead: availability, a live clock in my
+ * timezone so a caller can see whether I'm awake, and what to expect after
+ * writing. Same information a good out-of-office gives, permanently on.
+ */
+function StatusPanel() {
+  const [now, setNow] = useState(() => new Date());
+
+  useEffect(() => {
+    const t = window.setInterval(() => setNow(new Date()), 1000);
+    return () => window.clearInterval(t);
+  }, []);
+
+  const time = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Asia/Kolkata",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  }).format(now);
+
+  const hour = Number(
+    new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Asia/Kolkata",
+      hour: "2-digit",
+      hour12: false,
+    }).format(now),
+  );
+  const awake = hour >= 8 && hour < 24;
+
+  return (
+    <div className="w-full max-w-sm justify-self-center lg:justify-self-end">
+      <div className="border border-ink bg-paper shadow-[5px_5px_0_0_var(--color-ink)]">
+        <p className="type-label flex items-center justify-between border-b border-ink/15 px-4 py-2.5 text-ink-faint">
+          status
+          <span className="text-ink-soft">{profile.location}</span>
+        </p>
+
+        <div className="space-y-4 px-4 py-4">
+          <p className="flex items-center gap-2.5">
+            <span
+              aria-hidden="true"
+              className="relative inline-flex h-2.5 w-2.5 shrink-0"
+            >
+              <span
+                className="absolute inset-0 rounded-full motion-safe:animate-[ping-out_2.6s_cubic-bezier(0,0,0.2,1)_infinite]"
+                style={{ backgroundColor: "var(--signal)" }}
+              />
+              <span
+                className="relative inline-flex h-2.5 w-2.5 rounded-full"
+                style={{ backgroundColor: "var(--signal)" }}
+              />
+            </span>
+            <span className="type-display-tight text-lg leading-none text-ink">
+              open to work
+            </span>
+          </p>
+
+          <div className="flex items-baseline justify-between border-t border-ink/10 pt-4">
+            <span className="type-label text-ink-faint">my local time</span>
+            <span className="font-mono text-[1.05rem] tabular-nums text-ink">
+              {time}
+              <span className="type-label ml-2 text-ink-faint">IST</span>
+            </span>
+          </div>
+
+          <div className="flex items-baseline justify-between">
+            <span className="type-label text-ink-faint">right now</span>
+            <span className="type-label text-ink-soft">
+              {awake ? "probably at the keyboard" : "asleep — mail lands on top"}
+            </span>
+          </div>
+
+          <div className="flex items-baseline justify-between">
+            <span className="type-label text-ink-faint">replies</span>
+            <span className="type-label text-ink-soft">usually within a day</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function Contact() {
   return (
     <Section id="contact" index="05" title="Contact" kicker="no forms, no funnels">
@@ -127,20 +211,7 @@ export function Contact() {
           </div>
         </div>
 
-        <div className="flex items-start justify-center lg:justify-end">
-          <SpinSeal
-            text={`${profile.location} · SAY HELLO`}
-            size={190}
-            factor={-0.13}
-            className="text-ink"
-          >
-            <span className="type-display-tight text-center text-sm leading-tight text-ink">
-              open
-              <br />
-              to work
-            </span>
-          </SpinSeal>
-        </div>
+        <StatusPanel />
       </div>
     </Section>
   );

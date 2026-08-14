@@ -7,6 +7,7 @@ import {
   projects,
   skills,
 } from "../../content/profile";
+import { ARCADE } from "../game/registry";
 
 export type Line = {
   id: number;
@@ -164,6 +165,29 @@ export const COMMANDS: Record<
         : [dim("no resume posted — `contact` me and I'll send it over.")],
   },
 
+  play: {
+    desc: "the arcade — every project, playable",
+    run: (args) => {
+      // The arcade overlay is owned by <App> and lazy-loaded; a window event
+      // keeps the terminal free of any dependency on it.
+      const key = (args[0] ?? "").toLowerCase();
+      const game = ARCADE.find(
+        (g) => g.id === key || g.index === key.padStart(2, "0") || g.name.toLowerCase() === key,
+      );
+      window.dispatchEvent(
+        new CustomEvent("vg:play", { detail: { game: game?.id ?? "menu" } }),
+      );
+      if (game) {
+        return [sig(game.name), out(`${game.tagline}. good luck.`), dim("esc backs out")];
+      }
+      return [
+        dim("opening the arcade —"),
+        ...ARCADE.map((g) => out(`  ${g.index}  ${g.name.padEnd(16)} ${g.tagline}`)),
+        dim("play <01|02|03> jumps straight in"),
+      ];
+    },
+  },
+
   clear: {
     desc: "wipe the scroll",
     run: (_a, ctx) => {
@@ -250,5 +274,6 @@ export const QUICK_COMMANDS = [
   "experience",
   "skills",
   "contact",
+  "play",
   "help",
 ];

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { profile } from "../../content/profile";
 import type { PointerField } from "../../hooks/usePointerField";
 import { usePrefersReducedMotion } from "../../hooks/usePrefersReducedMotion";
+import { DecodeText } from "../ui/DecodeText";
 import MaskedHeading from "../ui/MaskedHeading";
 import { SignalField } from "./SignalField";
 import { Terminal } from "./Terminal";
@@ -40,7 +41,10 @@ export function Hero({ pointer }: Props) {
               className="type-label mb-5 flex items-center gap-3 text-ink-soft"
             >
               <span className="inline-block h-2 w-2 bg-[var(--signal)]" aria-hidden="true" />
-              {profile.role} · {profile.experience}
+              <span>
+                <span className="whitespace-nowrap">{profile.role}</span> ·{" "}
+                <span className="whitespace-nowrap">{profile.experience}</span>
+              </span>
             </motion.p>
 
             {/* The name is cut from the same plate as the section headings and
@@ -85,7 +89,7 @@ export function Hero({ pointer }: Props) {
           >
             <Terminal />
             <p className="type-label mt-3 text-ink-faint">
-              ↑ this is real — it runs commands
+              <DecodeText text="↑ this is real — it runs commands" duration={1.1} />
             </p>
           </motion.div>
         </div>
