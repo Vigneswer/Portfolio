@@ -23,5 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 
-# Personal source docs — not referenced by the site, contains contact info
-Vigneswer_V.pdf
+# Personal source copy at repo root — not referenced by the site, contains
+# contact info. Scoped to root only: public/Vigneswer_V.pdf is the one the
+# site actually serves (profile.ts links.resume) and must stay tracked.
+/Vigneswer_V.pdf
