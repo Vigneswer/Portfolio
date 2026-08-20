@@ -25,6 +25,7 @@ export const ARCADE: ArcadeGame[] = [
     projectId: "commerce",
     index: "01",
   },
+  
   {
     id: "flagged",
     name: "FLAGGED",
