@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "portfolio",
+  "compatibility_date": "2026-08-21",
+  // Static-only Worker: no server code, just the Vite build output.
+  // The site is a single page with no router, so unknown paths fall back
+  // to index.html rather than 404ing.
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  }
+}
