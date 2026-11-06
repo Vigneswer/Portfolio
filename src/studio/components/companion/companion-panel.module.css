@@ -1,0 +1,518 @@
+.backdrop {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: stretch;
+  overflow: hidden;
+  padding: 0;
+  background: #070a16;
+  overscroll-behavior: none;
+}
+.panel {
+  --px-ink: #eff6ff;
+  --px-muted: #9aabc7;
+  --px-blue: #69a9ff;
+  --px-blue-deep: #8dbaff;
+  --px-paper: #fff7df;
+  --px-line: #ffffff20;
+  --px-green: #79e4b1;
+  --px-gold: #ffd16b;
+  position: relative;
+  display: flex;
+  width: 100vw;
+  height: 100dvh;
+  min-height: 0;
+  max-height: 100dvh;
+  flex-direction: column;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  outline: none;
+  color: var(--px-ink);
+  background: #090f20;
+  box-shadow: none;
+  isolation: isolate;
+}
+.chatFromGames {
+  display: flex;
+  align-items: center;
+}
+
+.home {
+  position: relative;
+  display: grid;
+  min-height: 0;
+  flex: 1;
+  grid-template-columns: minmax(0, 1.05fr) minmax(340px, .95fr);
+  align-items: center;
+  gap: clamp(22px, 5vw, 72px);
+  overflow: hidden;
+  padding: clamp(22px, 5vw, 76px);
+  background:
+    radial-gradient(ellipse at 76% 78%, #182a48 0, transparent 39%),
+    radial-gradient(ellipse at 19% 10%, #152745 0, transparent 45%),
+    #090f20;
+}
+.home::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: linear-gradient(#ffffff08 1px, transparent 1px), linear-gradient(90deg, #ffffff08 1px, transparent 1px);
+  background-size: 44px 44px;
+  content: "";
+  mask-image: linear-gradient(transparent, #000 18%, #000 78%, transparent);
+}
+.homeStage {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  align-items: end;
+  justify-items: center;
+  overflow: hidden;
+  border: 1px solid #8cbaff26;
+  border-radius: 28px;
+  background:
+    radial-gradient(ellipse at 50% 70%, #3861a244, transparent 49%),
+    linear-gradient(180deg, #162846 0%, #101c32 74%, #172b40 74%, #1b3443 100%);
+  box-shadow: inset 0 0 70px #04091470, 0 22px 90px #02071370;
+}
+.homeStage::before {
+  position: absolute;
+  inset: 0;
+  opacity: .28;
+  background: repeating-linear-gradient(0deg, transparent 0 5px, #ffffff12 5px 6px);
+  content: "";
+  pointer-events: none;
+}
+.homeStage::after {
+  position: absolute;
+  top: 18%;
+  right: 14%;
+  width: 15px;
+  height: 15px;
+  background: var(--px-gold);
+  box-shadow: -135px 74px 0 -5px #83baff, -82px -24px 0 -4px #ffffff, 84px 118px 0 -6px #79e4b1, 132px 23px 0 -5px #83baff;
+  content: "";
+  image-rendering: pixelated;
+}
+.homeCharacter {
+  position: relative;
+  z-index: 1;
+  width: clamp(250px, 32vw, 430px);
+  margin-bottom: clamp(12px, 3vh, 30px);
+  filter: drop-shadow(0 15px 1px #02071277);
+}
+.pixelGround {
+  position: absolute;
+  right: 0;
+  bottom: 18px;
+  left: 0;
+  height: 9px;
+  border-top: 3px solid #71bd9b;
+  background: repeating-linear-gradient(90deg, #253e4e 0 26px, #1c3444 26px 52px);
+  box-shadow: 0 13px 0 #0b1626;
+}
+.greetingBubble {
+  position: absolute;
+  z-index: 3;
+  max-width: min(90%, 390px);
+  border: 2px solid #eff6ff;
+  border-radius: 13px 13px 13px 4px;
+  color: #101b30;
+  background: var(--px-paper);
+  box-shadow: 4px 4px 0 #0307138a;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.greetingBubble { top: 24px; left: 24px; padding: 11px 15px; }
+.greetingBubble i {
+  position: absolute;
+  bottom: -8px;
+  left: 20px;
+  width: 13px;
+  height: 13px;
+  border-right: 2px solid #eff6ff;
+  border-bottom: 2px solid #eff6ff;
+  background: var(--px-paper);
+  transform: skewY(35deg) rotate(24deg);
+}
+.homeCloud { position: absolute; top: 22%; right: 13%; color: #ffe08b; font-size: 27px; text-shadow: 0 0 21px #ffcf6b; }
+.homeCopy { position: relative; z-index: 1; width: min(100%, 600px); }
+.kicker {
+  margin: 0 0 12px;
+  color: #85c5ff;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+.homeCopy h1,
+.chooserIntro h1 {
+  max-width: 600px;
+  margin: 0 0 12px;
+  color: #f5f8ff;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: clamp(36px, 6vw, 78px);
+  font-weight: 900;
+  line-height: .98;
+  letter-spacing: -.08em;
+  text-shadow: 0 5px 0 #192943, 0 10px 0 #080d19;
+  text-transform: uppercase;
+}
+.subhead { margin: 0 0 25px; color: #a5b5cf; font-size: 15px; }
+.homeChoices { display: grid; max-width: 510px; gap: 12px; }
+.primaryChoice,
+.secondaryChoice {
+  display: grid;
+  min-height: 76px;
+  grid-template-columns: 48px 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 17px;
+  border: 1px solid #b9d6ff52;
+  border-radius: 13px;
+  color: #f7f9ff;
+  text-align: left;
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .16s ease;
+}
+.primaryChoice { border-color: #8bbcff; background: linear-gradient(120deg, #315993, #23416d); box-shadow: 0 4px 0 #0b1426, 0 0 28px #457dd930; }
+.secondaryChoice { background: #131f35; }
+.primaryChoice:hover,
+.secondaryChoice:hover { transform: translateY(-2px); border-color: #f4cd70; box-shadow: 0 7px 0 #050a14, 0 0 30px #75aef541; }
+.choiceIcon { display: grid; width: 44px; height: 44px; place-items: center; border: 1px solid #ffffff33; border-radius: 11px; color: #ffe08b; background: #ffffff10; }
+.primaryChoice > span:nth-child(2),
+.secondaryChoice > span:nth-child(2) { display: grid; gap: 4px; }
+.primaryChoice strong,
+.secondaryChoice strong { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 15px; letter-spacing: .09em; text-transform: uppercase; }
+.primaryChoice small,
+.secondaryChoice small { color: #c3d2e9; font-size: 12px; }
+.disclosure { display: block; margin-top: 17px; color: #7889a6; font-size: 11px; }
+
+.chooser {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: clamp(12px, 2vh, 20px);
+  padding: clamp(15px, 3vw, 38px) clamp(16px, 5vw, 76px);
+  overflow: auto;
+  background:
+    radial-gradient(ellipse at 20% 35%, #152b4a 0, transparent 48%),
+    #090f20;
+}
+.chooserIntro {
+  position: relative;
+  display: flex;
+  min-height: 96px;
+  flex: 0 0 auto;
+  flex-direction: column;
+  justify-content: center;
+}
+.chooserIntro .kicker { margin-bottom: 5px; }
+.chooserIntro h1 { margin: 0; font-size: clamp(29px, 4vw, 46px); letter-spacing: -.07em; text-shadow: 0 3px 0 #192943; }
+.chooserIntro > p:not(.kicker) { display: none; }
+.chooserCharacter { position: absolute; right: 6px; bottom: -6px; width: 96px; }
+.gameCards { display: grid; min-height: 0; flex: 1; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(12px, 2vw, 22px); }
+.gameCardRun,
+.gameCardQuest {
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  grid-template-rows: minmax(0, 1fr) auto;
+  overflow: hidden;
+  border: 1px solid #adc9ed4a;
+  border-radius: 17px;
+  color: var(--px-ink);
+  background: #111c30;
+  text-align: left;
+  box-shadow: 0 5px 0 #030712, 0 16px 45px #03071255;
+  transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+}
+.gameCardRun:hover,
+.gameCardQuest:hover { transform: translateY(-3px); border-color: #9dc8ff; box-shadow: 0 8px 0 #030712, 0 20px 50px #03071280; }
+.gamePreviewRun,
+.gamePreviewQuest { position: relative; display: block; min-height: 165px; overflow: hidden; }
+.gamePreviewRun { background: linear-gradient(#67b1ec 0 57%, #a7d797 57%); }
+.sunBlock { position: absolute; top: 13%; right: 14%; width: 35px; height: 35px; background: #ffdb76; box-shadow: 0 0 0 10px #ffdc7633; }
+.hillBack { position: absolute; right: 0; bottom: 13%; left: 0; height: 36%; background: #6aa67c; clip-path: polygon(0 56%,20% 13%,39% 47%,60% 5%,80% 48%,100% 13%,100% 100%,0 100%); }
+.previewCharacter { position: absolute; z-index: 1; bottom: 10%; left: 31%; width: clamp(70px, 10vw, 132px); }
+.groundBlocks { position: absolute; right: 0; bottom: 0; left: 0; height: 17%; border-top: 5px solid #4e895d; background: repeating-linear-gradient(90deg,#b88457 0 34px,#9e704c 34px 38px); }
+.gamePreviewQuest { background: #5cb7bd; }
+.questWater { position: absolute; inset: 0 auto 0 0; width: 25%; background: repeating-linear-gradient(0deg,#76d0d0 0 14px,#52b7c1 14px 17px); }
+.questPath { position: absolute; top: 37%; right: 0; bottom: 0; left: 14%; background: #e8cf9d; clip-path: polygon(27% 0,70% 0,100% 100%,0 100%); }
+.questPalm { position: absolute; top: 8%; right: 12%; color: #246a55; font-size: 43px; }
+.questHouse { position: absolute; right: 25%; bottom: 13%; color: #875f45; font-size: 45px; text-shadow: 0 3px 0 #fff2d0; }
+.questPreviewCharacter { position: absolute; z-index: 1; bottom: 10%; left: 25%; width: clamp(65px, 9vw, 115px); }
+.gameCardCopy { display: flex; min-height: 82px; flex-direction: column; align-items: flex-start; justify-content: center; gap: 4px; padding: 12px 18px; }
+.gameCardCopy > strong { color: #f2f6ff; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: clamp(15px, 1.7vw, 20px); letter-spacing: .04em; text-transform: uppercase; }
+.gameCardCopy > small { color: #a4b5d0; font-size: 12px; }
+.gameStart { display: flex; align-items: center; gap: 6px; margin-top: 3px; color: #ffd87e; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.chatFromGames { gap: 8px; align-self: center; min-height: 40px; padding: 0 10px; color: #a9c8f5; background: transparent; font-size: 12px; font-weight: 650; }
+.chatFromGames:hover { color: #ffd87e; }
+.gamePanel { min-height: 0; }
+.gameWrap { display: flex; min-width: 0; min-height: 0; flex: 1; overflow: hidden; background: #090f20; }
+
+@media (max-width: 760px) {
+  .home { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; gap: clamp(10px, 2vh, 18px); padding: 13px 15px max(14px, env(safe-area-inset-bottom)); }
+  .homeStage { width: 100%; min-height: 0; border-radius: 17px; }
+  .homeCharacter { width: min(76vw, 340px); margin-bottom: 17px; }
+  .greetingBubble { top: 12px; left: 12px; padding: 8px 11px; font-size: 13px; }
+  .homeCloud { top: 15%; right: 12%; }
+  .homeCopy { max-width: 560px; margin-inline: auto; }
+  .kicker { margin-bottom: 6px; font-size: 10px; }
+  .homeCopy h1 { margin-bottom: 6px; font-size: clamp(31px, 9vw, 49px); }
+  .subhead { margin-bottom: 11px; font-size: 12px; }
+  .homeChoices { max-width: none; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+  .primaryChoice, .secondaryChoice { min-height: 62px; grid-template-columns: 33px 1fr auto; gap: 7px; padding: 8px; border-radius: 10px; }
+  .choiceIcon { width: 32px; height: 32px; border-radius: 8px; }
+  .choiceIcon svg { width: 17px; height: 17px; }
+  .primaryChoice strong, .secondaryChoice strong { font-size: 11px; letter-spacing: .04em; }
+  .primaryChoice small, .secondaryChoice small { font-size: 10px; }
+  .primaryChoice > svg, .secondaryChoice > svg { width: 14px; }
+  .disclosure { margin-top: 8px; font-size: 9px; }
+  .chooser { gap: 8px; padding: 12px 12px max(10px, env(safe-area-inset-bottom)); }
+  .chooserIntro { min-height: 55px; }
+  .chooserIntro .kicker { margin-bottom: 3px; font-size: 9px; }
+  .chooserIntro h1 { font-size: 26px; }
+  .chooserCharacter { right: 0; bottom: -4px; width: 58px; }
+  .gameCards { grid-template-columns: 1fr; grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 9px; }
+  .gameCardRun, .gameCardQuest { position: relative; display: block; border-radius: 11px; }
+  .gamePreviewRun, .gamePreviewQuest { position: absolute; inset: 0; min-height: 0; }
+  .gamePreviewRun::after, .gamePreviewQuest::after { position: absolute; z-index: 2; inset: 40% 0 0; content: ""; background: linear-gradient(180deg, transparent 0%, #111c3040 25%, #111c30f2 100%); }
+  .sunBlock { width: 24px; height: 24px; }
+  .previewCharacter { z-index: 3; bottom: 31%; left: 26%; width: clamp(82px, 25vw, 112px); }
+  .questPreviewCharacter { z-index: 3; bottom: 31%; left: 17%; width: clamp(72px, 22vw, 100px); }
+  .questPalm { font-size: 32px; }
+  .questHouse { font-size: 33px; }
+  .gameCardCopy { position: absolute; z-index: 4; right: 0; bottom: 0; left: 0; min-height: 0; gap: 4px; padding: 35px 12px 11px; }
+  .gameCardCopy > strong { font-size: 16px; }
+  .gameCardCopy > small { font-size: 10px; line-height: 1.3; }
+  .gameStart { margin-top: 1px; font-size: 9px; }
+  .gameStart svg { width: 13px; }
+  .chatFromGames { min-height: 31px; font-size: 11px; }
+}
+@media (max-width: 390px) {
+  .home { padding-inline: 10px; }
+  .homeStage { border-radius: 12px; }
+  .primaryChoice, .secondaryChoice { grid-template-columns: 28px 1fr auto; gap: 5px; padding: 7px; }
+  .choiceIcon { width: 28px; height: 28px; }
+  .primaryChoice strong, .secondaryChoice strong { font-size: 10px; }
+  .primaryChoice small, .secondaryChoice small { font-size: 9px; }
+}
+@media (max-height: 520px) and (max-width: 760px) {
+  .home { grid-template-columns: minmax(0, 1fr) minmax(260px, .85fr); grid-template-rows: 1fr; gap: 12px; padding: 8px 12px max(8px, env(safe-area-inset-bottom)); }
+  .homeCharacter { width: min(42vh, 190px); }
+  .homeCopy h1 { font-size: clamp(24px, 7vh, 34px); }
+  .subhead, .disclosure { display: none; }
+  .homeChoices { grid-template-columns: 1fr; gap: 6px; }
+  .primaryChoice, .secondaryChoice { min-height: 48px; }
+  .chooser { display: grid; grid-template-rows: 47px minmax(0, 1fr) 28px; gap: 5px; padding: 7px 10px max(6px, env(safe-area-inset-bottom)); }
+  .chooserIntro { min-height: 0; }
+  .chooserIntro h1 { font-size: 20px; }
+  .chooserCharacter { display: none; }
+  .gameCards { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); gap: 8px; }
+  .gameCardRun, .gameCardQuest { grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr); }
+  .gamePreviewRun, .gamePreviewQuest { min-height: 0; }
+  .gameCardCopy { padding: 5px 8px; }
+  .gameCardCopy > small { display: none; }
+  .chatFromGames { min-height: 25px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .primaryChoice, .secondaryChoice, .gameCardRun, .gameCardQuest { transition: none; }
+  .previewCharacter { animation: none; }
+}
+
+
+/* Pocket console: one device contains the screen, navigation and controls. */
+.panel { width: 100%; height: 100dvh; max-height: 100dvh; padding: max(10px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left)); color: #302b43; background: #c9c3db; box-shadow: inset 0 4px 0 #eeeaf5, inset 0 -6px 0 #a49bb9; }
+.consoleHeader { display: flex; align-items: center; justify-content: space-between; flex: 0 0 46px; padding: 0 12px 8px; }
+.consoleHeader > div { display: flex; align-items: center; gap: 10px; }
+.consoleHeader strong { font: italic 900 17px ui-monospace, monospace; }
+.consoleHeader nav { display: flex; gap: 9px; }
+.consoleHeader button { display: grid; place-items: center; width: 36px; height: 32px; color: #413750; background: #ded8eb; border: 2px solid #aaa0bd; border-radius: 5px; box-shadow: 0 2px 0 #9287a5; }
+.consoleHeader button:active { translate: 0 2px; box-shadow: none; }
+.powerLed { width: 7px; height: 7px; background: #499b79; box-shadow: 0 0 0 3px #b6afc8; border-radius: 50%; }
+.consoleScreen { position: relative; display: flex; flex-direction: column; flex: 1; min-height: 0; min-width: 0; overflow: hidden; color: var(--px-ink); background: #161c30; border: 12px solid #4e485f; border-bottom-width: 20px; border-radius: 8px 8px 30px 8px; box-shadow: 0 3px 0 #eeeaf5, inset 0 0 0 3px #242030; }
+.consoleScreen button:focus-visible { outline: 3px solid #ffdb8b; outline-offset: -4px; }
+.home { gap: 30px; padding: 25px 5%; background: #151e34; }
+.homeStage { border-radius: 3px; box-shadow: none; }
+.homeCharacter { width: min(27vw, 300px); }
+.homeCopy h1 { font-size: clamp(30px, 4.5vw, 62px); }
+.primaryChoice, .secondaryChoice { border-radius: 3px; min-height: 62px; }
+.choiceIcon { border-radius: 2px; }
+.chooser { padding: 18px 28px; background: #151e34; }
+.chooserIntro { min-height: 66px; }
+.chooserIntro h1 { font-size: 32px; }
+.gameCards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.gameCardRun, .gameCardQuest { border: 3px solid #6e7693; border-radius: 4px; box-shadow: 0 5px 0 #070c1a; }
+.gameCardCopy { padding: 12px; }
+.gameCardCopy > strong { font-size: clamp(13px, 1.5vw, 21px); }
+.gamePreviewRun, .gamePreviewQuest { min-height: 100px; }
+.rooftopPreview { background: #34304e; }
+.rooftopPreview .sunBlock { border-radius: 0; background: #f2dcb0; width: 28px; height: 28px; box-shadow: none; }
+.rooftops { position: absolute; inset: 35% 0 0; background: #746174; clip-path: polygon(0 25%,20% 25%,20% 0,35% 0,35% 40%,55% 40%,55% 15%,75% 15%,75% 0,90% 0,90% 32%,100% 32%,100% 100%,0 100%); border-bottom: 8px solid #bba08a; }
+.gameWrap { background: #151e34; }
+@media (max-width: 760px) {
+  .panel { padding-inline: max(10px, env(safe-area-inset-left)) max(10px, env(safe-area-inset-right)); }
+  .consoleHeader { padding-inline: 4px; }
+  .consoleHeader strong { font-size: 15px; }
+  .consoleScreen { border-width: 8px; border-bottom-width: 16px; border-radius: 6px 6px 24px 6px; }
+  .home { padding: 12px; gap: 12px; }
+  .homeCharacter { width: min(42vw, 210px); }
+  .homeCopy h1 { font-size: 30px; }
+  .homeCopy .kicker, .subhead { display: none; }
+  .primaryChoice, .secondaryChoice { min-height: 58px; }
+  .chooser { padding: 10px; gap: 8px; }
+  .chooserIntro { min-height: 40px; }
+  .chooserIntro h1 { font-size: 23px; }
+  .chooserIntro .kicker, .chooserCharacter, .chatFromGames { display: none; }
+  .gameCards { grid-template-columns: 1fr; grid-template-rows: repeat(3, minmax(95px, 1fr)); overflow: auto; padding-bottom: 5px; }
+  .gameCardRun, .gameCardQuest { min-height: 95px; }
+  .gamePreviewRun, .gamePreviewQuest { inset: 0 54% 0 0; min-height: 0; }
+  .gamePreviewRun::after, .gamePreviewQuest::after { display: none; }
+  .previewCharacter, .questPreviewCharacter { width: 77px; bottom: 5%; left: 15%; }
+  .gameCardCopy { inset: 0 0 0 46%; justify-content: center; padding: 10px; }
+  .gameCardCopy > strong { font-size: 14px; }
+  .gameCardCopy > small { font-size: 10px; }
+  .gameStart { font-size: 9px; }
+}
+@media (max-height: 500px) and (min-width: 601px) {
+  .panel { padding-inline: 145px; padding-bottom: 10px; }
+  .consoleHeader { flex-basis: 38px; }
+  .consoleHeader strong { font-size: 13px; }
+  .consoleScreen { border-width: 6px; border-bottom-width: 12px; }
+  .home { grid-template-columns: .8fr 1fr; grid-template-rows: 1fr; padding: 8px; gap: 14px; }
+  .homeCharacter { width: 150px; }
+  .homeCopy h1 { font-size: 25px; }
+  .homeChoices { grid-template-columns: 1fr; }
+  .primaryChoice, .secondaryChoice { min-height: 43px; }
+  .greetingBubble, .disclosure, .kicker, .subhead { display: none; }
+  .chooser { display: flex; padding: 8px; }
+  .chooserIntro { min-height: 28px; }
+  .gameCards { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: 1fr; }
+  .gameCardRun, .gameCardQuest { display: flex; flex-direction: column; }
+  .gamePreviewRun, .gamePreviewQuest { position: relative; flex: 1; inset: auto; width: 100%; }
+  .gameCardCopy { position: relative; inset: auto; padding: 7px; }
+  .gameCardCopy > strong { font-size: 11px; }
+  .gameStart, .gameCardCopy > small { display: none; }
+}
+.panel { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+@media (max-height: 500px) and (min-width: 601px) { .chooserCharacter { display: none; } }
+
+
+
+/* One RPG-style dialogue log; each turn has one place on the screen. */
+.arcadeChat {
+  --dialogue-font: "Pixel Dialogue", "Courier New", monospace;
+  position:relative;
+  display:grid;
+  grid-template-rows:56px minmax(0,1fr) clamp(120px,18vh,160px) auto;
+  flex:1;
+  min-width:0;
+  min-height:0;
+  gap:10px;
+  padding:16px clamp(12px,4vw,64px) 14px;
+  color:#eef4ff;
+  background:#151e34;
+}
+.arcadeChatOverlay { position:absolute; z-index:7; inset:0; }
+.dialogueHeader {
+  display:flex; align-items:center; gap:12px;
+  width:min(100%,920px); margin-inline:auto;
+  min-width:0; border-bottom:2px solid #36415e;
+}
+ .dialogueStage { position:relative; display:flex; align-items:flex-end; justify-content:center; min-height:0; width:min(100%,920px); margin-inline:auto; overflow:hidden; }
+.dialogueStageCharacter { position:relative; z-index:1; width:156px; max-height:100%; object-fit:contain; }
+.dialoguePlatform { position:absolute; left:50%; bottom:6px; width:150px; height:9px; transform:translateX(-50%); background:#2d4562; border-top:3px solid #7ca89c; box-shadow:0 4px 0 #0c1427; }
+.dialogueHeader > div { min-width:0; }
+.dialogueHeader h1 { margin:0; font:400 clamp(25px,3vw,33px)/1 var(--dialogue-font); letter-spacing:0; }
+.dialogueHeader > div > span { display:block; margin-top:5px; color:#a6b9d4; font:400 18px/1.2 var(--dialogue-font); }
+.returnToGame { display:flex; align-items:center; gap:7px; min-height:40px; margin-left:auto; padding:8px 12px; border:2px solid #91abc9; border-radius:0; color:#e9f1ff; background:#273754; box-shadow:3px 3px 0 #070d1c; font:400 19px var(--dialogue-font); }
+.dialogueLog {
+  display:flex; flex-direction:column; align-items:flex-start;
+  min-height:0; min-width:0; width:min(100%,920px); margin-inline:auto;
+  overflow:auto; overscroll-behavior:contain;
+  padding:14px 8px 20px; gap:18px;
+  scrollbar-width:thin; scrollbar-color:#7183a5 transparent;
+}
+.dialogueLog:focus-visible { outline:2px dashed #9ebbe7; outline-offset:-2px; }
+.dialogueBubble {
+  --bubble-fill:#fff3d8;
+  --bubble-edge:#c1cee5;
+  position:relative; isolation:isolate; flex:0 0 auto;
+  width:fit-content; max-width:min(85%,660px); padding:15px 19px;
+  color:#26324b; background:var(--bubble-edge);
+  clip-path:polygon(0 8px,4px 8px,4px 4px,8px 4px,8px 0,calc(100% - 8px) 0,calc(100% - 8px) 4px,calc(100% - 4px) 4px,calc(100% - 4px) 8px,100% 8px,100% calc(100% - 8px),calc(100% - 4px) calc(100% - 8px),calc(100% - 4px) calc(100% - 4px),calc(100% - 8px) calc(100% - 4px),calc(100% - 8px) 100%,8px 100%,8px calc(100% - 4px),4px calc(100% - 4px),4px calc(100% - 8px),0 calc(100% - 8px));
+}
+.dialogueBubble::before { position:absolute; z-index:-1; content:""; inset:3px; background:var(--bubble-fill); clip-path:inherit; }
+.dialogueSpeaker { display:block; margin-bottom:6px; color:#6e624f; font:700 11px/1.4 ui-monospace,monospace; letter-spacing:.03em; }
+.dialogueBubble p { margin:0; font:400 clamp(22px,2.3vw,26px)/1.28 var(--dialogue-font); overflow-wrap:anywhere; white-space:pre-wrap; }
+.companionBubble { align-self:flex-start; }
+.playerBubble { --bubble-fill:#2d456b; --bubble-edge:#7e9bc5; align-self:flex-end; color:#f0f6ff; }
+.playerBubble .dialogueSpeaker { color:#afc9ed; }
+.pendingBubble { --bubble-fill:#25314b; --bubble-edge:#586b8d; color:#b7c9e4; }
+.pendingBubble .dialogueSpeaker { color:#a6b9d4; }
+.thinkingDots { animation:thinking-blink 1.2s steps(2,end) infinite; }
+.dialogueStarters { display:flex; flex-wrap:wrap; gap:10px; padding:0 2px; }
+.dialogueStarters button { min-height:43px; padding:8px 13px; border:2px solid #647898; border-radius:0; color:#d4e3fa; background:#202d47; box-shadow:3px 3px 0 #0a1020; font:400 21px/1.1 var(--dialogue-font); text-align:left; }
+.dialogueStarters button:hover { border-color:#ffd98e; color:#ffe1a2; }
+.dialogueComposerArea { width:min(100%,920px); min-width:0; margin-inline:auto; }
+.dialogueNotice { margin:0 0 12px; padding:10px 12px; border-left:4px solid #eebd83; color:#ffe1b7; background:#3f3040; font:400 20px/1.3 var(--dialogue-font); }
+.pixelComposer {
+  display:grid; grid-template-columns:20px minmax(0,1fr) auto;
+  gap:10px; align-items:center; min-height:64px; padding:7px 8px 7px 15px;
+  border:3px solid #899fbe; background:#10192b;
+  box-shadow:inset 0 0 0 3px #243453,4px 4px 0 #070d1c;
+}
+.pixelComposer:focus-within { border-color:#ffe0a2; box-shadow:inset 0 0 0 3px #39405a,4px 4px 0 #070d1c; }
+.inputPrompt { color:#ffe0a2; font:400 28px/1 var(--dialogue-font); }
+.pixelComposer input { width:100%; min-width:0; height:44px; padding:2px 0; border:0; border-radius:0; outline:0; color:#f1f6ff; background:transparent; caret-color:#ffe0a2; font:400 26px/1.1 var(--dialogue-font); }
+.pixelComposer input::placeholder { color:#8fa4c4; opacity:1; }
+.pixelComposer input:disabled { opacity:.65; }
+.pixelSend { display:flex; align-items:center; justify-content:center; gap:13px; min-width:95px; min-height:44px; padding:7px 13px; border:2px solid #fee7b4; border-radius:0; color:#2b2b3c; background:#f1cc86; box-shadow:0 3px 0 #9c774b; font:400 24px/1 var(--dialogue-font); }
+.pixelSend > span:last-child { font:14px ui-monospace,monospace; }
+.pixelSend:hover:not(:disabled) { background:#ffe0a2; }
+.pixelSend:active:not(:disabled) { translate:0 3px; box-shadow:none; }
+.pixelSend:disabled { color:#98a2b7; border-color:#65758e; background:#3b4963; box-shadow:0 3px 0 #202c43; cursor:default; }
+.composerMeta { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 3px 0; color:#a2b4d0; font:400 17px/1 var(--dialogue-font); }
+.visuallyHidden { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+@keyframes thinking-blink { 50% { opacity:.35; } }
+@media(max-width:760px) {
+  .arcadeChat { grid-template-rows:52px minmax(0,1fr) 112px auto; padding:8px 10px 12px; gap:8px; }
+  .dialogueHeader { gap:6px; }
+  .dialogueStageCharacter { width:116px; }
+  .dialoguePlatform { width:116px; }
+  .dialogueHeader h1 { font-size:26px; }
+  .dialogueHeader > div > span { font-size:16px; }
+  .returnToGame { min-height:38px; padding:7px 8px; font-size:17px; }
+  .returnToGame svg { display:none; }
+  .dialogueLog { gap:14px; padding:10px 2px 16px; }
+  .dialogueBubble { max-width:94%; padding:13px 15px; }
+  .dialogueBubble p { font-size:23px; line-height:1.25; }
+  .dialogueSpeaker { font-size:10px; }
+  .dialogueStarters { gap:8px; }
+  .dialogueStarters button { font-size:20px; min-height:42px; }
+  .pixelComposer { min-height:60px; grid-template-columns:14px minmax(0,1fr) 72px; padding:6px 6px 6px 10px; gap:6px; }
+  .pixelComposer input { font-size:23px; }
+  .pixelSend { min-width:0; padding-inline:8px; gap:8px; font-size:22px; }
+  .pixelSend > span:last-child { font-size:11px; }
+  .composerMeta { font-size:16px; }
+}
+@media(max-height:500px) {
+  .panel.chatPanel { padding-inline:max(10px,env(safe-area-inset-left)) max(10px,env(safe-area-inset-right)); }
+  .arcadeChat { grid-template-rows:40px minmax(0,1fr) 72px auto; padding-block:4px 8px; gap:4px; }
+  .dialogueStageCharacter { width:76px; }
+  .dialoguePlatform { width:88px; bottom:3px; height:6px; border-top-width:2px; }
+  .dialogueHeader h1 { font-size:24px; }
+  .dialogueHeader > div > span { display:none; }
+  .dialogueLog { padding-block:8px; }
+  .pixelComposer { min-height:52px; padding-block:3px; }
+  .pixelComposer input,.pixelSend { min-height:38px; height:38px; }
+  .composerMeta { padding-top:7px; font-size:15px; }
+}
+@media(prefers-reduced-motion:reduce) { .thinkingDots { animation:none; } }

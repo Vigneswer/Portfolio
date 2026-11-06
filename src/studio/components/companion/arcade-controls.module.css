@@ -1,0 +1,38 @@
+.controls { flex: 0 0 auto; display: grid; grid-template-columns: 132px 1fr 132px; align-items: center; gap: 20px; padding: 20px 36px 12px; color: #38334e; user-select: none; }
+.controls button { touch-action: none; -webkit-user-select: none; cursor: pointer; font-family: ui-monospace, monospace; font-weight: 900; }
+.controls button:focus-visible { outline: 3px solid #415ddc; outline-offset: 4px; }
+.dpad { display: grid; grid-template: repeat(3, 42px) / repeat(3, 42px); filter: drop-shadow(0 5px 0 #292537); }
+.dpad button, .center { border: 0; background: #403b51; color: #aca5c1; display: grid; place-items: center; font-size: 17px; }
+.dpad button:active { background: #272335; color: white; }
+.up { grid-area: 1 / 2; border-radius: 5px 5px 0 0; }
+.left { grid-area: 2 / 1; border-radius: 5px 0 0 5px; }
+.center { grid-area: 2 / 2; }
+.center::after { content: ''; width: 20px; height: 20px; border: 2px solid #292537; border-radius: 50%; }
+.right { grid-area: 2 / 3; border-radius: 0 5px 5px 0; }
+.down { grid-area: 3 / 2; border-radius: 0 0 5px 5px; }
+.actions { display: flex; align-items: center; justify-content: end; gap: 12px; transform: rotate(-18deg); }
+.actions button { width: 56px; height: 56px; border: 3px solid #692c59; border-radius: 50%; background: #a44778; color: #ffe8f1; box-shadow: 0 5px 0 #64284f; font-size: 23px; transform: rotate(18deg); }
+.actions button:active { translate: 0 4px; box-shadow: 0 1px 0 #64284f; }
+.system { text-align: center; display: grid; justify-items: center; gap: 14px; }
+.wordmark { font: italic 900 18px ui-monospace, monospace; letter-spacing: -1px; }
+.wordmark span { font-weight: 400; }
+.system > div { display: flex; gap: 18px; }
+.system button { border: 0; border-radius: 12px; background: #7d758c; color: white; padding: 8px 14px; box-shadow: 0 3px 0 #5e576c; font-size: 10px; }
+.system small { font: 10px ui-monospace, monospace; }
+@media (max-width: 600px) { .controls { grid-template-columns: 126px 1fr 114px; padding: 20px 2px 12px; gap: 3px; } .system { gap: 14px; } .wordmark { font-size: 12px; } .system > div { gap: 8px; flex-direction: column; } .system button { padding: 6px 9px; font-size: 9px; } .system small { display: none; } .actions { gap: 8px; } .actions button { width: 50px; height: 50px; } }
+@media (max-height: 500px) and (min-width: 601px) { .controls { position: absolute; inset: 55px 8px 12px; pointer-events: none; padding: 0; grid-template-columns: 126px 1fr 126px; } .controls button { pointer-events: auto; } .system { align-self: end; } .system > div, .system small { display: none; } }
+@media (max-height: 500px) and (min-width: 601px) {
+  .system { position: absolute; left: 0; bottom: 0; width: 126px; gap: 6px; }
+  .system .wordmark { font-size: 11px; }
+  .system > div { display: flex; flex-direction: row; gap: 7px; }
+  .system button { min-height: 32px; padding: 5px 9px; font-size: 9px; }
+}
+@media (max-width: 359px) { .controls { grid-template-columns: 108px 1fr 100px; } .dpad { grid-template: repeat(3, 36px) / repeat(3, 36px); } .actions button { width: 44px; height: 44px; } }
+.actions { grid-column: 3; }
+/* Each physical button names its current action, including on narrow screens. */
+.actions { transform:none; }
+.actions > span { display:grid; justify-items:center; gap:8px; }
+.actions > span:first-child { translate:0 10px; }
+.actions > span:last-child { translate:0 -10px; }
+.actions button { transform:none; }
+.actions small { color:#483d57; font:700 10px ui-monospace,monospace; }

@@ -1,0 +1,1 @@
+export function NotFound() { return <main className="not-found rounded-panel"><h1>A small detour.</h1><p>This page could not be found.</p><a href="/" className="primary-button">Back to the portfolio</a></main>; }

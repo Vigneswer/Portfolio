@@ -1,3 +1,25 @@
+# Vigneswer’s portfolio
+
+The main portfolio uses the imported studio design with the original profile data in `src/content/profile.ts`. The previous portfolio—including its terminal, physics interactions, and games—is available at `/classic`.
+
+```sh
+npm ci
+npm run dev
+npm run build
+npm run lint
+npm run preview
+```
+
+Open the URL printed by Vite. Check `/`, `/projects/commerce`, `/projects/petition`, `/projects/malayalam`, `/projects/askktu`, and `/classic`. The sidebar character opens the handheld arcade and local portfolio guide. Chat answers use public portfolio data locally; no AI service or secret is configured.
+
+Cloudflare configuration and the existing `npm run deploy` command are unchanged. No deployment was performed during integration. See [the analysis, plan, file manifest and verification record](docs/portfolio-integration.md).
+
+The résumé PDF was already deleted in the working tree before integration. Restore `public/Vigneswer_V.pdf` when ready; the studio automatically shows the download link when the file exists at build time.
+
+---
+
+## Original scaffold notes
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.

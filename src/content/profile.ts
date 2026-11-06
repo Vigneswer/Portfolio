@@ -13,12 +13,12 @@ export const profile = {
   name: "Vigneswer V",
   /** Terminal prompt + logo mark. lowercase. */
   handle: "vigneswer",
-  role: "Full-stack Engineer",
+  role: "Full-stack Developer",
   /** Rendered inline in the hero and in `whoami`. */
-  experience: "shipping production since 2025",
+  experience: "building useful software since 2025",
   /** The pitch. One line, under ~90 characters reads best. */
   pitch:
-    "I build commerce systems where the architecture is as considered as the interface.",
+    "I build helpful websites and apps that make everyday tasks easier.",
   location: "Kochi, Kerala · IN",
 } as const;
 
@@ -37,14 +37,14 @@ export const links = {
    -------------------------------------------------------------------------- */
 export const about = {
   lines: [
-    "I work at the seam between the two halves people usually split: the payment webhook that must never double-charge, and the checkout screen that must never make you think.",
-    "Most of my year has gone into multi-tenant commerce — Clean Architecture, CQRS, saga and outbox patterns on the backend, Next.js and a shared component library on the front. I like systems where correctness is provable and the UI hides all of it.",
-    "Before that I was training multimodal models to catch fake news in Malayalam, which is a fancy way of saying I'll follow an interesting problem well outside my job description.",
+    "I enjoy turning tricky problems into software people can use. At work, I build online shopping tools — from checkout and payments to delivery and returns.",
+    "I like making the behind-the-scenes work feel simple: payments go through once, orders stay on track, and each shop sees its own information.",
+    "I have also built projects that check Malayalam news and help students find answers in university documents.",
   ],
   notes: [
     { k: "based", v: "Kochi, Kerala" },
-    { k: "currently", v: "Multi-tenant commerce at Druvino Systems" },
-    { k: "obsessed with", v: "Idempotency — webhooks that survive being replayed" },
+    { k: "currently", v: "Building online shopping tools at Druvino Systems" },
+    { k: "care about", v: "Reliable payments and clear, easy-to-use websites" },
     { k: "studied", v: "B.Tech IT, GEC Idukki" },
   ],
 } as const;
@@ -73,45 +73,61 @@ export const projects: Project[] = [
     index: "01",
     name: "Druvino Commerce",
     year: "2026",
-    blurb: "Multi-tenant e-commerce platform, checkout to returns.",
+    blurb: "An online shopping platform, from checkout and payment to delivery and returns.",
     problem:
-      "One codebase had to serve many tenants while handling real money — where a duplicated webhook or a lost order event isn't a bug, it's a refund dispute.",
+      "Many shops use the same platform, so orders and payments need to stay accurate while each shop sees only its own information.",
     approach:
-      "A modular monolith on Clean Architecture with CQRS and MediatR. Razorpay integration with signature verification and idempotent event handling, saga and outbox patterns for order state, plus a hierarchical return-policy engine and per-item shipment tracking. Frontend in Next.js and TypeScript against a shared component library.",
+      "Built the shopping website and the services behind it. Shoppers can check out as guests or sign in, pay securely, request refunds, follow deliveries, and return items. Shops can manage their own products and orders, while background services keep payment updates and notifications in sync.",
     outcome:
-      "Guest and authenticated checkout, OTP onboarding with JWT, payments, refunds, shipment tracking and returns running in production across tenants.",
+      "People can shop, pay, track deliveries, and request returns. The platform is running for multiple businesses.",
     tech: [".NET 10", "ASP.NET Core", "PostgreSQL", "Next.js", "TypeScript", "Razorpay"],
     href: null,
     repo: null,
   },
   {
-    id: "malayalam",
+    id: "petition",
     index: "02",
-    name: "Fake News Detection · Malayalam",
-    year: "2025",
-    blurb: "Multimodal misinformation detection for a low-resource language.",
+    name: "Petition Platform",
+    year: "Oct 2026 – Present",
+    blurb: "A simple way to publish petitions, collect signatures, and review support.",
     problem:
-      "Malayalam misinformation spreads as image-and-caption pairs, and the models that catch it in English simply don't exist for it.",
+      "Organisers need an easy way to publish petitions and keep every signature safe and organised.",
     approach:
-      "Combined MuRIL for Malayalam text with CLIP and BLIP for the image side, so a claim and its picture are judged together rather than separately. Layered real-time verification through the Gemini and Exa APIs, and shipped it as both a web app and a browser extension so it meets people where they actually read the news.",
+      "Built a public website where people can find petitions and preview their PDFs, plus a private workspace for organisers. Organisers can write drafts, publish petitions, review signatures, and close a petition. People create protected accounts and can sign each petition once. When a petition closes, the platform creates a final PDF with signatures in order.",
     outcome:
-      "Working end-to-end multimodal pipeline with a browser extension that flags claims in place, on a language most tooling ignores.",
+      "Organisers can manage a petition from draft to close, and download a clear record of its signatures.",
+    tech: ["ASP.NET Core", "PostgreSQL", "React", "Next.js", "TypeScript", "PDF generation"],
+    href: null,
+    repo: null,
+  },
+  {
+    id: "malayalam",
+    index: "03",
+    name: "Malayalam News Checker",
+    year: "2024 – 2025",
+    blurb: "Checks Malayalam news stories and explains how trustworthy they seem.",
+    problem:
+      "A news story can combine text, images, and links. Readers need a way to check all of it in Malayalam.",
+    approach:
+      "Built a website and browser extension that check a story's words, pictures, and links together. Each check gives a clear score and explains the clues behind it, using Malayalam language tools, image checks, and trusted web sources.",
+    outcome:
+      "Readers can check a story and see an easy-to-understand credibility score in the website or browser extension.",
     tech: ["React", "FastAPI", "Python", "MongoDB", "MuRIL", "CLIP"],
     href: null,
     repo: null,
   },
   {
     id: "askktu",
-    index: "03",
+    index: "04",
     name: "Ask KTU",
     year: "2024",
-    blurb: "RAG chatbot that actually knows the university's own rules.",
+    blurb: "A chatbot that answers student questions using official KTU documents.",
     problem:
-      "KTU's regulations live scattered across PDFs and notice boards, so students ask each other and get confidently wrong answers.",
+      "Students need clear answers about courses, regulations, and credits, but the information is spread across many university documents.",
     approach:
-      "Retrieval-augmented generation over the real documents: chunked and embedded into Supabase vector storage, semantic search on top, LangChain orchestrating retrieval and persistent chat history so answers stay grounded in a source rather than improvised.",
+      "Built a chat service that searches official university PDFs before answering. Students can sign in and return to earlier conversations.",
     outcome:
-      "Students get answers cited from actual university documents, with conversations that persist across sessions.",
+      "Students can get answers based on official KTU documents and pick up earlier chats later.",
     tech: ["React", "LangChain", "OpenAI API", "Supabase", "Vector Search"],
     href: null,
     repo: null,
@@ -129,10 +145,10 @@ export const experience = [
     from: "Jan 2026",
     to: "Present",
     points: [
-      "Built checkout, guest checkout and OTP onboarding with JWT authentication.",
-      "Integrated Razorpay end to end: webhook handling, signature verification, refunds, idempotent event handling.",
-      "Designed a hierarchical return-policy engine and per-item shipment tracking driven by order events.",
-      "Applied Clean Architecture, CQRS, DDD, saga and outbox patterns across a multi-tenant modular monolith.",
+      "Added guest checkout, sign-in, and account setup with a one-time code.",
+      "Connected the shop to Razorpay so customers can pay and request refunds securely.",
+      "Created clear return rules and shipment tracking for each item in an order.",
+      "Built one shopping platform for several businesses, keeping each shop's information separate.",
     ],
   },
   {
@@ -142,7 +158,7 @@ export const experience = [
     from: "Jun 2025",
     to: "Dec 2025",
     points: [
-      "Built full-stack applications with React, Node, Express and MongoDB, integrating REST APIs and deploying to cloud platforms.",
+      "Built websites and apps with React, Node.js, and MongoDB, and helped prepare them for release.",
     ],
   },
 ] as const;
@@ -153,9 +169,10 @@ export const education = {
   from: "Dec 2021",
   to: "Apr 2025",
   certifications: [
+    "React — HackerRank",
     "React — Codecademy",
-    "Python Internship — River Tech IT Solutions",
-    "UI/UX Workshop — Eldii",
+    "AI Tools and Claude Workshop — be10x",
+    "GitHub Foundations — Coursera",
   ],
 } as const;
 
@@ -183,7 +200,7 @@ export const skills = [
     ],
   },
   {
-    group: "Architecture",
+    group: "Building reliable software",
     items: [
       { name: "Clean Architecture", weight: 0.9 },
       { name: "CQRS", weight: 0.85 },
