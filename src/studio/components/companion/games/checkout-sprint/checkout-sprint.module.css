@@ -1,0 +1,624 @@
+.game {
+  --ink: #26324b;
+  --muted: #77869c;
+  --blue: #669eeB;
+  --paper: #fff9ec;
+  --line: #dfe8ef;
+  width: 100%;
+  color: var(--ink);
+  font-family: inherit;
+  padding: clamp(14px, 2.4vw, 28px);
+  border: 1px solid rgba(135, 159, 180, 0.18);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 9% 2%, rgba(219, 240, 237, 0.72), transparent 24rem),
+    linear-gradient(145deg, #fffdf7 0%, #f4f8fb 100%);
+  box-shadow: 0 24px 70px rgba(45, 67, 93, 0.12), 0 2px 8px rgba(45, 67, 93, 0.06);
+}
+
+.header,
+.gameTitle,
+.headerActions,
+.hud,
+.progressBlock,
+.timer,
+.footer,
+.instructions,
+.touchControls,
+.directionControls {
+  display: flex;
+  align-items: center;
+}
+
+.header {
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.gameTitle {
+  min-width: 0;
+  gap: 13px;
+}
+
+.titleIcon {
+  display: grid;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border: 2px solid var(--ink);
+  border-radius: 13px;
+  color: #f6c75f;
+  background: #fff3d4;
+  box-shadow: 3px 4px 0 #26324b;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 22px;
+}
+
+.gameTitle h2 {
+  margin: 0;
+  font-size: clamp(20px, 2.4vw, 25px);
+  font-weight: 780;
+  letter-spacing: -0.045em;
+  line-height: 1.1;
+}
+
+.gameTitle p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.headerActions {
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.softButton,
+.pauseButton,
+.primaryButton,
+.secondaryButton,
+.textButton {
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0 15px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.84);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+}
+
+.softButton:hover,
+.pauseButton:hover,
+.secondaryButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 13px rgba(38, 50, 75, 0.1);
+}
+
+.pauseButton {
+  border-color: #26324b;
+  color: #fffdf7;
+  background: var(--ink);
+}
+
+.pauseButton:disabled {
+  opacity: 0.56;
+  cursor: default;
+  transform: none;
+}
+
+.hud {
+  min-height: 65px;
+  gap: 18px;
+  padding: 0 18px;
+  margin-bottom: 11px;
+  border: 1px solid rgba(217, 227, 233, 0.92);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.progressBlock,
+.timer {
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+}
+
+.hudLabel {
+  color: #8a98aa;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.progressBlock strong,
+.timer strong {
+  color: var(--ink);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.progressBlock strong span {
+  color: #e8b64d;
+}
+
+.progressBlock small {
+  color: #94a1b1;
+  font-size: 11px;
+}
+
+.levelTrack {
+  position: relative;
+  flex: 1 1 auto;
+  height: 11px;
+  margin: 7px 4px 0;
+  border: 2px solid #63745f;
+  border-radius: 5px;
+  background: #e7efd9;
+  box-shadow: inset 0 2px 3px rgba(38, 50, 75, 0.1);
+}
+
+.levelTrack > span {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  background: repeating-linear-gradient(90deg, #75b997 0 9px, #8ecaaa 9px 15px);
+  transition: width 180ms linear;
+}
+
+.levelTrack i {
+  position: absolute;
+  top: -13px;
+  right: -7px;
+  color: #de9f43;
+  font-size: 16px;
+  font-style: normal;
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 3px solid #26324b;
+  border-radius: 17px;
+  background: #cce7ff;
+  box-shadow: 0 6px 0 rgba(38, 50, 75, 0.17), 0 16px 30px rgba(46, 70, 91, 0.12);
+  outline: none;
+  touch-action: none;
+}
+
+.stage:focus-visible {
+  box-shadow: 0 0 0 4px rgba(102, 158, 235, 0.35), 0 6px 0 rgba(38, 50, 75, 0.17), 0 16px 30px rgba(46, 70, 91, 0.12);
+}
+
+.canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.liveMessage {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  max-width: min(65%, 420px);
+  padding: 10px 15px;
+  border: 2px solid var(--ink);
+  border-radius: 13px 13px 13px 4px;
+  color: var(--ink);
+  background: var(--paper);
+  box-shadow: 3px 4px 0 rgba(38, 50, 75, 0.8), 0 6px 16px rgba(38, 50, 75, 0.12);
+  font-size: 13px;
+  font-weight: 650;
+  pointer-events: none;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(36, 47, 69, 0.33);
+  backdrop-filter: blur(3px);
+}
+
+.modalCard {
+  width: min(100%, 390px);
+  padding: 27px 29px 25px;
+  border: 2px solid var(--ink);
+  border-radius: 18px;
+  color: var(--ink);
+  background: var(--paper);
+  box-shadow: 5px 6px 0 var(--ink), 0 20px 45px rgba(24, 37, 56, 0.25);
+  text-align: center;
+}
+
+.modalKicker {
+  color: #6f8a75;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+
+.modalCard h3 {
+  margin: 8px 0 7px;
+  font-size: clamp(27px, 4vw, 36px);
+  font-weight: 850;
+  letter-spacing: -0.055em;
+}
+
+.modalCard p {
+  margin: 0 auto 20px;
+  max-width: 290px;
+  color: #68788d;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.finishCard h3 {
+  color: #487e65;
+}
+
+.modalButtons {
+  display: grid;
+  gap: 8px;
+}
+
+.primaryButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 49px;
+  padding: 0 18px;
+  border-color: #26324b;
+  color: #fff;
+  background: var(--ink);
+}
+
+.primaryButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 0 rgba(38, 50, 75, 0.2);
+}
+
+.secondaryButton {
+  min-height: 46px;
+  border-color: #d8e3e7;
+  background: #fff;
+}
+
+.textButton {
+  min-height: 40px;
+  border-color: transparent;
+  color: #75849a;
+  background: transparent;
+}
+
+.textButton:hover {
+  color: var(--ink);
+  background: rgba(38, 50, 75, 0.05);
+}
+
+.footer {
+  justify-content: space-between;
+  gap: 14px;
+  padding: 17px 2px 0;
+}
+
+.instructions {
+  flex-wrap: wrap;
+  gap: 7px 14px;
+  margin: 0;
+  color: #8190a1;
+  font-size: 11px;
+}
+
+.instructions strong {
+  color: #53637a;
+  font-size: 11px;
+}
+
+.instructions span {
+  padding-left: 11px;
+  border-left: 1px solid #d7e1e9;
+}
+
+.touchControls,
+.directionControls {
+  gap: 9px;
+}
+
+.touchControls button {
+  display: grid;
+  min-width: 54px;
+  min-height: 52px;
+  place-items: center;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  color: var(--ink);
+  background: #fffdf7;
+  box-shadow: 0 4px 0 rgba(38, 50, 75, 0.2);
+  font: inherit;
+  font-size: 24px;
+  font-weight: 800;
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.touchControls button:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 rgba(38, 50, 75, 0.2);
+  background: #eaf2ff;
+}
+
+.touchControls .jumpButton {
+  min-width: 100px;
+  grid-auto-flow: column;
+  gap: 8px;
+  padding: 0 15px;
+  color: #fff;
+  background: #6495df;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+}
+
+.jumpButton span {
+  font-size: 19px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 680px) {
+  .game {
+    padding: 13px;
+    border-radius: 19px;
+  }
+
+  .header {
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 13px;
+  }
+
+  .gameTitle {
+    gap: 9px;
+  }
+
+  .titleIcon {
+    flex-basis: 42px;
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+    font-size: 19px;
+  }
+
+  .gameTitle p {
+    max-width: 150px;
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .headerActions {
+    gap: 6px;
+  }
+
+  .softButton,
+  .pauseButton {
+    min-height: 40px;
+    padding: 0 10px;
+    font-size: 11px;
+  }
+
+  .headerActions .softButton:first-child {
+    display: none;
+  }
+
+  .hud {
+    min-height: 57px;
+    gap: 11px;
+    padding: 0 12px;
+    border-radius: 13px;
+  }
+
+  .progressBlock strong,
+  .timer strong {
+    font-size: 14px;
+  }
+
+  .hudLabel {
+    font-size: 8px;
+  }
+
+  .stage {
+    border-width: 2px;
+    border-radius: 13px;
+  }
+
+  .liveMessage {
+    right: 9px;
+    bottom: 9px;
+    max-width: 76%;
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+
+  .footer {
+    align-items: flex-start;
+    flex-direction: column;
+    padding-top: 15px;
+  }
+
+  .instructions {
+    gap: 7px 9px;
+    font-size: 10px;
+  }
+
+  .instructions strong {
+    flex-basis: 100%;
+  }
+
+  .instructions span:first-of-type {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .touchControls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .touchControls button {
+    min-width: 62px;
+    min-height: 58px;
+    border-radius: 16px;
+  }
+
+  .touchControls .jumpButton {
+    min-width: 112px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 400px) {
+  .softButton {
+    display: none;
+  }
+
+  .footer {
+    gap: 10px;
+  }
+
+  .modalCard {
+    padding: 22px 20px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .softButton,
+  .pauseButton,
+  .primaryButton,
+  .secondaryButton,
+  .textButton,
+  .levelTrack > span {
+    transition: none;
+  }
+}
+
+.immersive {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+  gap: 9px;
+  padding: 11px clamp(10px, 2vw, 24px) 10px;
+  border: 0;
+  border-radius: 0;
+  background: radial-gradient(ellipse at 20% 0%, #162b49, transparent 45%), #0b1221;
+  box-shadow: none;
+}
+
+.immersive .header { flex: 0 0 auto; gap: 12px; margin: 0; }
+.immersive .titleIcon { display: none; }
+.immersive .gameTitle p { display: none; }
+.immersive .gameTitle h2 { color: #eff6ff; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .06em; text-transform: uppercase; }
+.immersive .softButton,
+.immersive .pauseButton { min-height: 39px; border-color: #ffffff2b; border-radius: 9px; color: #dce9ff; background: #14213a; box-shadow: none; }
+.immersive .pauseButton { color: #0b1424; background: #9bc4ff; }
+.immersive .headerActions button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; }
+.immersive .closeButton { width: 39px; min-width: 39px; padding-inline: 0; }
+.immersive .backButton { padding-inline: 11px; }
+.immersive .hud { min-height: 47px; flex: 0 0 auto; gap: 13px; margin: 0; border-color: #ffffff24; border-radius: 10px; background: #121e32; }
+.immersive .hudLabel { color: #8da5c8; }
+.immersive .progressBlock strong,
+.immersive .timer strong { color: #eef5ff; }
+.immersive .levelTrack { border-color: #82a98a; }
+.immersive .stage { min-height: 0; flex: 1 1 auto; aspect-ratio: auto; border-width: 2px; border-color: #233a55; border-radius: 10px; box-shadow: none; }
+.immersive .canvas { object-fit: cover; }
+.immersive .footer { flex: 0 0 auto; gap: 8px; padding: 0; }
+.immersive .instructions { gap: 7px; margin: 0; color: #a7bad5; }
+.immersive .instructions strong { display: none; }
+.immersive .instructions span { padding: 0; border: 0; }
+.immersive .touchControls { gap: 7px; }
+.immersive .touchControls button { min-width: 43px; min-height: 40px; border: 1px solid #ffffff30; border-radius: 8px; color: #eaf3ff; background: #162844; box-shadow: 0 2px 0 #050a13; }
+.immersive .touchControls .jumpButton { min-width: 78px; color: #091322; background: #9bc4ff; font-size: 11px; }
+.immersive .overlay { background: #080e1acc; }
+.immersive .modalCard { color: #eef5ff; background: #111d32; border-color: #d5e4ff; }
+.immersive .modalCard p { color: #a8bbd5; }
+.immersive .modalCard h3 { color: #f4f7ff; }
+.immersive .primaryButton { color: #0b1424; background: #9bc4ff; }
+.immersive .secondaryButton { color: #eaf3ff; background: #1d3150; }
+.immersive .textButton { color: #a8bbd5; }
+
+@media (max-width: 680px) {
+  .immersive { gap: 7px; padding: max(7px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left)); }
+  .immersive .header { align-items: center; gap: 6px; }
+  .immersive .headerActions { flex-wrap: nowrap; gap: 5px; }
+  .immersive .headerActions .softButton:first-child { display: inline-flex; }
+  .immersive .headerActions .softButton:nth-of-type(2) { display: flex; }
+  .immersive .softButton,
+  .immersive .pauseButton { min-height: 35px; padding-inline: 8px; font-size: 10px; }
+  .immersive .hud { min-height: 42px; gap: 9px; padding-inline: 9px; }
+  .immersive .progressBlock strong,
+  .immersive .timer strong { font-size: 12px; }
+  .immersive .levelTrack { height: 9px; }
+  .immersive .footer { align-items: center; flex-direction: row; }
+  .immersive .instructions { display: none; }
+  .immersive .touchControls { width: auto; justify-content: flex-end; }
+  .immersive .directionControls { gap: 6px; }
+  .immersive .touchControls button { min-width: 44px; min-height: 42px; }
+  .immersive .touchControls .jumpButton { min-width: 82px; }
+}
+
+@media (max-width: 430px) {
+  .immersive .header { gap: 4px; }
+  .immersive .gameTitle h2 { font-size: 13px; }
+  .immersive .headerActions { gap: 4px; }
+  .immersive .headerActions button,
+  .immersive .headerActions .closeButton,
+  .immersive .headerActions .backButton { width: 36px; min-width: 36px; min-height: 35px; padding-inline: 0; }
+  .immersive .headerActions button span { display: none; }
+}
+
+@media (max-height: 500px) and (max-width: 680px) {
+  .immersive { gap: 4px; padding-block: max(4px, env(safe-area-inset-top)) max(4px, env(safe-area-inset-bottom)); }
+  .immersive .hud { min-height: 34px; }
+  .immersive .touchControls button { min-height: 34px; }
+}
+
+/* The enclosing pocket console owns the controls and navigation. */
+.immersive.game { padding: 0; gap: 0; width: 100%; background: #11182b; }
+.immersive .header, .immersive .footer { display: none; }
+.immersive .hud { min-height: 40px; border: 0; border-bottom: 2px solid #4e485f; border-radius: 0; background: #222a43; padding: 5px 14px; }
+.immersive .stage { border: 0; border-radius: 0; background: #101627; }
+.immersive .canvas { width: 100%; height: 100%; object-fit: contain; object-position: center !important; }
+.immersive .liveMessage { display: none; }
+.immersive .modalCard { max-height: 95%; overflow: auto; border-radius: 4px; padding: 18px; }
+.immersive .modalKicker, .immersive .modalCard p { display: none; }
+.immersive .modalButtons { gap: 8px; }
+@media (max-height: 500px) { .immersive .hud { min-height: 30px; padding-block: 2px; } .immersive .hudLabel { display: none; } .immersive .modalCard h3 { margin: 0 0 10px; font-size: 22px; } }
+.immersive .levelTrack { background: #151e34; border-color: #647488; box-shadow: none; }

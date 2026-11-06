@@ -1,0 +1,917 @@
+.game {
+  --quest-sky: #d8eeff;
+  --quest-sea: #77c7cf;
+  --quest-ink: #26324b;
+  --quest-blue: #669eeb;
+  --quest-leaf: #75b997;
+  --quest-gold: #eab96b;
+  --quest-paper: #fff9ec;
+  --quest-path: #e8bc82;
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+  width: 100%;
+  padding: clamp(15px, 2.4vw, 25px);
+  overflow: hidden;
+  color: var(--quest-ink);
+  background: #f4f7fc;
+  border: 1px solid #e3e9f2;
+  border-radius: 26px;
+  box-shadow: 0 7px 0 #dfe6f0;
+  font-family: inherit;
+}
+
+.header,
+.titleBlock,
+.headerActions,
+.introRow,
+.progress,
+.journalHeading,
+.stampRow,
+.gameBottom,
+.dialogue,
+.dialogueActions {
+  display: flex;
+  align-items: center;
+}
+
+.header,
+.introRow,
+.journalHeading,
+.gameBottom {
+  justify-content: space-between;
+}
+
+.header {
+  gap: 16px;
+}
+
+.titleBlock {
+  min-width: 0;
+  gap: 12px;
+}
+
+.titleMark {
+  display: grid;
+  width: 43px;
+  height: 43px;
+  flex: 0 0 auto;
+  place-items: center;
+  color: #fff;
+  background: var(--quest-blue);
+  border: 2px solid var(--quest-ink);
+  border-radius: 13px;
+  box-shadow: 3px 3px 0 #c0d1e9;
+}
+
+.eyebrow {
+  margin: 0 0 4px;
+  color: #6e7d94;
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.035em;
+  line-height: 1.25;
+}
+
+.titleBlock h2,
+.journalHeading h3,
+.dialogueCopy h3 {
+  margin: 0;
+  color: var(--quest-ink);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+}
+
+.titleBlock h2 {
+  font-size: clamp(21px, 2.2vw, 27px);
+  line-height: 1.1;
+}
+
+.headerActions {
+  justify-content: flex-end;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.headerActions button,
+.interactButton,
+.collectButton,
+.dialogueClose,
+.pausedNote button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 13px;
+  color: var(--quest-ink);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+  border: 1px solid #dfe6f0;
+  border-radius: 13px;
+  background: #fff;
+  transition: background-color 120ms ease, border-color 120ms ease, transform 120ms ease;
+}
+
+.headerActions button:hover,
+.dialogueClose:hover {
+  background: var(--quest-sky);
+  border-color: #bdd2ed;
+}
+
+.headerActions button:active,
+.interactButton:active,
+.collectButton:active,
+.dialogueClose:active {
+  transform: translateY(1px);
+}
+
+.headerActions .backButton {
+  min-height: 42px;
+  padding-inline: 14px;
+  color: #fff;
+  background: var(--quest-ink);
+  border-color: var(--quest-ink);
+}
+
+.headerActions .backButton:hover {
+  color: var(--quest-ink);
+  background: #fff;
+}
+
+.introRow {
+  gap: 12px;
+  min-height: 27px;
+}
+
+.introRow > p {
+  margin: 0;
+  color: #56657d;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.progress {
+  gap: 7px;
+  flex: 0 0 auto;
+  padding: 7px 11px;
+  color: #68502c;
+  background: #ffefcd;
+  border: 1px solid #f1d99f;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.playArea {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(235px, 0.72fr);
+  align-items: stretch;
+  gap: 14px;
+}
+
+.sceneFrame {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  aspect-ratio: 1.5;
+  background: var(--quest-sea);
+  border: 3px solid var(--quest-ink);
+  border-radius: 16px;
+  box-shadow: 0 5px 0 #c6d3e4;
+}
+
+.canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--quest-sea);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  outline: none;
+  touch-action: none;
+}
+
+.canvas:focus-visible {
+  outline: 4px solid #fff;
+  outline-offset: -7px;
+}
+
+.mapBadge,
+.welcomeTag {
+  position: absolute;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 29px;
+  padding: 0 10px;
+  color: var(--quest-ink);
+  background: var(--quest-paper);
+  border: 1px solid #26324b;
+  border-radius: 9px;
+  box-shadow: 2px 2px 0 #26324b;
+  font-size: 10px;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.mapBadge {
+  top: 11px;
+  left: 11px;
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  background: var(--quest-leaf);
+  border: 1px solid var(--quest-ink);
+  border-radius: 50%;
+}
+
+.welcomeTag {
+  right: 11px;
+  bottom: 11px;
+  color: #fff;
+  background: var(--quest-ink);
+  border-color: var(--quest-ink);
+  box-shadow: 2px 2px 0 #fff8;
+}
+
+.journal {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 17px 16px 14px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+}
+
+.journalHeading {
+  gap: 8px;
+  margin-bottom: 13px;
+}
+
+.journalHeading h3 {
+  font-size: 17px;
+  line-height: 1.2;
+}
+
+.journalCount {
+  display: grid;
+  width: 35px;
+  height: 35px;
+  flex: 0 0 auto;
+  place-items: center;
+  color: #5e4a2d;
+  background: #ffefcd;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.stampList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stampRow {
+  min-width: 0;
+  gap: 9px;
+  padding: 8px 0;
+  border-bottom: 1px solid #edf0f5;
+}
+
+.stampIcon {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  place-items: center;
+  color: #71809a;
+  background: #f2f5f9;
+  border: 1px dashed #bbc6d6;
+  border-radius: 10px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.stampFound {
+  color: #fff;
+  background: var(--quest-leaf);
+  border: 1px solid #4e9676;
+}
+
+.stampText {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.stampText strong {
+  color: var(--quest-ink);
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.stampText small {
+  overflow: hidden;
+  color: #71809a;
+  font-size: 10px;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stampState {
+  flex: 0 0 auto;
+  color: #7b8799;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.stampFound + .stampText + .stampState {
+  color: #448364;
+}
+
+.returnHint {
+  margin: 11px 0 12px;
+  padding: 10px 11px;
+  color: #55657c;
+  background: #eff5fd;
+  border-left: 3px solid var(--quest-blue);
+  border-radius: 0 9px 9px 0;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.desktopInstruction {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: auto;
+  color: #6c7890;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.desktopInstruction strong {
+  color: var(--quest-ink);
+  font-size: 11px;
+}
+
+.gameBottom {
+  flex-wrap: wrap;
+  gap: 10px 14px;
+}
+
+.touchControls {
+  display: none;
+}
+
+.interactButton {
+  min-height: 47px;
+  padding-inline: 16px;
+  color: #fff;
+  background: var(--quest-ink);
+  border-color: var(--quest-ink);
+}
+
+.interactButton:hover:not(:disabled),
+.collectButton:hover {
+  background: #3e5d9d;
+  border-color: #3e5d9d;
+}
+
+.interactButton:disabled {
+  color: #8793a5;
+  background: #e7ebf1;
+  border-color: #e0e5ec;
+  cursor: default;
+}
+
+.statusMessage {
+  min-width: 170px;
+  flex: 1 1 220px;
+  margin: 0;
+  color: #65738a;
+  font-size: 11px;
+  line-height: 1.45;
+  text-align: right;
+}
+
+.dialogue {
+  align-items: flex-start;
+  gap: 12px;
+  padding: 15px;
+  background: #fff9ec;
+  border: 2px solid var(--quest-ink);
+  border-radius: 16px;
+  box-shadow: 4px 4px 0 #26324b;
+}
+
+.dialogueAvatar {
+  display: grid;
+  width: 37px;
+  height: 37px;
+  flex: 0 0 auto;
+  place-items: center;
+  color: #fff;
+  background: var(--quest-blue);
+  border: 2px solid var(--quest-ink);
+  border-radius: 11px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.dialogueCopy {
+  min-width: 0;
+  flex: 1;
+}
+
+.dialogueCopy h3 {
+  margin: 1px 0 4px;
+  font-size: 15px;
+}
+
+.dialogueCopy p {
+  max-width: 68ch;
+  margin: 0;
+  color: #536078;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.dialogueActions {
+  align-self: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.collectButton {
+  color: #fff;
+  background: var(--quest-ink);
+  border-color: var(--quest-ink);
+  white-space: nowrap;
+}
+
+.pausedNote {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  color: #58677d;
+  background: #e9eef7;
+  border-radius: 11px;
+  font-size: 12px;
+}
+
+.pausedNote button {
+  min-height: 34px;
+  padding: 0 11px;
+  background: #fff;
+}
+
+.game button:focus-visible,
+.canvas:focus-visible {
+  outline: 3px solid #4167d9;
+  outline-offset: 3px;
+}
+
+@media (max-width: 850px) {
+  .playArea {
+    grid-template-columns: minmax(0, 1.65fr) minmax(220px, 0.85fr);
+  }
+
+  .journal {
+    padding: 14px 12px;
+  }
+
+  .stampState {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .game {
+    gap: 14px;
+    padding: 14px;
+    border-radius: 22px;
+  }
+
+  .header {
+    align-items: flex-start;
+  }
+
+  .headerActions {
+    gap: 6px;
+  }
+
+  .headerActions button {
+    width: 42px;
+    min-width: 42px;
+    padding: 0;
+  }
+
+  .headerActions button span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .headerActions .backButton {
+    width: auto;
+    padding-inline: 12px;
+    font-size: 10px;
+  }
+
+  .headerActions .backButton span {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+  }
+
+  .playArea {
+    grid-template-columns: 1fr;
+    gap: 11px;
+  }
+
+  .journal {
+    padding: 13px 14px 12px;
+  }
+
+  .stampList {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .stampRow {
+    align-items: flex-start;
+    gap: 7px;
+    padding: 8px 6px;
+    border: 1px solid #edf0f5;
+    border-radius: 11px;
+  }
+
+  .stampIcon {
+    width: 29px;
+    height: 29px;
+  }
+
+  .stampText small {
+    max-width: 100%;
+    font-size: 9px;
+  }
+
+  .returnHint {
+    margin: 9px 0;
+  }
+
+  .desktopInstruction {
+    display: none;
+  }
+
+  .gameBottom {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 10px 12px;
+  }
+
+  .touchControls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    grid-row: span 2;
+  }
+
+  .touchControls p {
+    max-width: 70px;
+    margin: 0;
+    color: #6c7890;
+    font-size: 10px;
+    line-height: 1.35;
+  }
+
+  .dPad {
+    display: grid;
+    grid-template-columns: repeat(3, 46px);
+    grid-template-rows: repeat(2, 46px);
+    gap: 4px;
+  }
+
+  .dPad button {
+    display: grid;
+    min-width: 46px;
+    min-height: 46px;
+    place-items: center;
+    color: var(--quest-ink);
+    background: #fff;
+    border: 1px solid #dbe3ee;
+    border-radius: 12px;
+    box-shadow: 0 2px 0 #d5deea;
+    touch-action: none;
+    user-select: none;
+  }
+
+  .dPad button:active {
+    background: var(--quest-sky);
+    transform: translateY(2px);
+    box-shadow: none;
+  }
+
+  .dPad button:nth-child(1) { grid-area: 1 / 2; }
+  .dPad button:nth-child(2) { grid-area: 2 / 1; }
+  .dPad button:nth-child(3) { grid-area: 2 / 2; }
+  .dPad button:nth-child(4) { grid-area: 2 / 3; }
+
+  .interactButton {
+    width: 100%;
+    min-height: 50px;
+    padding-inline: 10px;
+    font-size: 11px;
+  }
+
+  .statusMessage {
+    grid-column: 2;
+    min-width: 0;
+    font-size: 10px;
+    text-align: left;
+  }
+
+  .dialogue {
+    flex-wrap: wrap;
+    gap: 9px;
+    padding: 12px;
+  }
+
+  .dialogueAvatar {
+    width: 33px;
+    height: 33px;
+  }
+
+  .dialogueCopy {
+    flex-basis: calc(100% - 48px);
+  }
+
+  .dialogueCopy h3 {
+    font-size: 14px;
+  }
+
+  .dialogueCopy p {
+    font-size: 12px;
+  }
+
+  .dialogueActions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .dialogueActions button {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 430px) {
+  .game {
+    padding: 11px;
+    gap: 12px;
+  }
+
+  .titleBlock {
+    gap: 8px;
+  }
+
+  .titleMark {
+    width: 37px;
+    height: 37px;
+    border-radius: 11px;
+  }
+
+  .eyebrow {
+    font-size: 9px;
+  }
+
+  .titleBlock h2 {
+    font-size: 20px;
+  }
+
+  .headerActions button {
+    width: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .headerActions .backButton {
+    width: auto;
+    min-width: 0;
+    padding-inline: 9px;
+    font-size: 9px;
+  }
+
+  .introRow {
+    align-items: flex-start;
+  }
+
+  .introRow > p {
+    max-width: 64%;
+    font-size: 11px;
+  }
+
+  .progress {
+    padding: 6px 8px;
+    font-size: 10px;
+  }
+
+  .sceneFrame {
+    border-width: 2px;
+    border-radius: 12px;
+  }
+
+  .mapBadge,
+  .welcomeTag {
+    min-height: 24px;
+    padding-inline: 7px;
+    border-radius: 7px;
+    font-size: 8px;
+  }
+
+  .mapBadge { top: 7px; left: 7px; }
+  .welcomeTag { right: 7px; bottom: 7px; }
+
+  .stampList {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .stampRow {
+    align-items: center;
+    padding: 5px 7px;
+  }
+
+  .stampText small {
+    white-space: normal;
+  }
+
+  .stampIcon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .dPad {
+    grid-template-columns: repeat(3, 46px);
+    grid-template-rows: repeat(2, 46px);
+    gap: 4px;
+  }
+
+  .dPad button {
+    min-width: 46px;
+    min-height: 46px;
+  }
+
+  .touchControls {
+    gap: 7px;
+  }
+
+  .touchControls p {
+    max-width: 55px;
+    font-size: 9px;
+  }
+
+  .interactButton {
+    min-height: 48px;
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .headerActions button,
+  .interactButton,
+  .collectButton,
+  .dialogueClose {
+    transition: none;
+  }
+}
+
+.immersive {
+  height: 100%;
+  min-height: 0;
+  gap: 9px;
+  padding: 10px clamp(10px, 2vw, 23px);
+  border: 0;
+  border-radius: 0;
+  color: #eff6ff;
+  background: radial-gradient(ellipse at 20% 0%, #18314a, transparent 43%), #0b1221;
+  box-shadow: none;
+}
+
+.immersive .header { flex: 0 0 auto; gap: 10px; }
+.immersive .headerActions button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; }
+.immersive .headerActions button:last-child { width: 39px; min-width: 39px; padding-inline: 0; }
+.immersive .titleMark,
+.immersive .eyebrow { display: none; }
+.immersive .titleBlock h2 { color: #eff6ff; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .06em; text-transform: uppercase; }
+.immersive .headerActions { flex-wrap: nowrap; }
+.immersive .headerActions button { min-height: 38px; border-color: #ffffff2b; border-radius: 9px; color: #dce9ff; background: #14213a; }
+.immersive .headerActions .backButton { color: #091322; background: #9bc4ff; border-color: #9bc4ff; }
+.immersive .introRow { min-height: 0; flex: 0 0 auto; }
+.immersive .introRow > p { display: none; }
+.immersive .progress { min-height: 28px; padding: 5px 10px; color: #ffdf91; background: #302a27; border-color: #746144; }
+.immersive .playArea { min-height: 0; flex: 1 1 auto; grid-template-columns: minmax(0, 1.8fr) minmax(210px, .72fr); gap: 10px; }
+.immersive .sceneFrame { min-height: 0; height: 100%; aspect-ratio: auto; border-color: #233a55; border-radius: 10px; box-shadow: none; }
+.immersive .canvas { object-fit: cover; }
+.immersive .journal { min-height: 0; overflow: auto; padding: 13px 12px; border-color: #ffffff20; border-radius: 10px; color: #e9f2ff; background: #121e32; }
+.immersive .journalHeading { margin-bottom: 8px; }
+.immersive .journalHeading h3 { color: #eff6ff; font-size: 15px; }
+.immersive .journalCount { color: #ffe3a1; background: #302a27; }
+.immersive .stampRow { border-color: #ffffff17; }
+.immersive .stampText strong { color: #eaf3ff; }
+.immersive .stampText small,
+.immersive .stampState { color: #9bacbf; }
+.immersive .stampIcon { color: #bdd2ed; background: #17253b; border-color: #7487a4; }
+.immersive .stampFound { color: #0b1720; background: #78d4a6; border-color: #78d4a6; }
+.immersive .returnHint { margin: 9px 0; color: #c1d0e4; background: #1a2b43; border-left-color: #80b7fa; }
+.immersive .desktopInstruction { color: #a7bad5; }
+.immersive .desktopInstruction strong { color: #eaf3ff; }
+.immersive .gameBottom { flex: 0 0 auto; gap: 8px 12px; }
+.immersive .interactButton,
+.immersive .collectButton { color: #0b1424; background: #9bc4ff; border-color: #9bc4ff; }
+.immersive .statusMessage { color: #a8bad2; }
+.immersive .dialogue { color: #eef5ff; background: #13223a; border-color: #d5e4ff; box-shadow: 4px 4px 0 #030813; }
+.immersive .dialogueCopy h3 { color: #eff6ff; }
+.immersive .dialogueCopy p { color: #b7c8df; }
+.immersive .pausedNote { color: #c7d7eb; background: #172841; }
+.immersive .pausedNote button { color: #0b1424; background: #9bc4ff; }
+
+@media (max-width: 700px) {
+  .immersive { gap: 6px; padding: max(7px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(7px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left)); }
+  .immersive .header { align-items: center; gap: 5px; }
+  .immersive .titleBlock h2 { font-size: 16px; }
+  .immersive .headerActions { gap: 5px; }
+  .immersive .headerActions button { min-width: 38px; width: 38px; min-height: 36px; }
+  .immersive .headerActions .backButton { width: auto; min-width: 0; padding-inline: 8px; font-size: 9px; }
+  .immersive .progress { min-height: 25px; padding: 4px 8px; font-size: 9px; }
+  .immersive .playArea { flex: 1 1 auto; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); gap: 0; }
+  .immersive .sceneFrame { width: 100%; min-height: 0; height: 100%; border-radius: 8px; }
+  .immersive .journal { display: none; }
+  .immersive .mapBadge,
+  .immersive .welcomeTag { min-height: 23px; font-size: 8px; }
+  .immersive .gameBottom { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 6px 9px; }
+  .immersive .touchControls { grid-row: span 2; gap: 0; }
+  .immersive .touchControls p,
+  .immersive .statusMessage { display: none; }
+  .immersive .dPad { grid-template-columns: repeat(3, 39px); grid-template-rows: repeat(2, 36px); gap: 3px; }
+  .immersive .dPad button { min-width: 39px; min-height: 36px; border-color: #ffffff30; border-radius: 8px; color: #eaf3ff; background: #172943; box-shadow: 0 2px 0 #040a14; }
+  .immersive .interactButton { min-height: 43px; padding-inline: 7px; border-radius: 9px; font-size: 10px; }
+  .immersive .dialogue { gap: 7px; padding: 9px; border-radius: 11px; }
+  .immersive .dialogueCopy h3 { font-size: 13px; }
+  .immersive .dialogueCopy p { font-size: 10px; }
+  .immersive .dialogueActions button { min-height: 38px; font-size: 10px; }
+}
+
+@media (max-width: 430px) {
+  .immersive .header { gap: 4px; }
+  .immersive .titleBlock h2 { font-size: 13px; }
+  .immersive .headerActions { gap: 4px; }
+  .immersive .headerActions button,
+  .immersive .headerActions button:last-child,
+  .immersive .headerActions .backButton { width: 36px; min-width: 36px; min-height: 35px; padding-inline: 0; }
+  .immersive .headerActions button span { display: none; }
+}
+
+@media (max-height: 500px) and (max-width: 700px) {
+  .immersive { gap: 3px; padding-block: max(3px, env(safe-area-inset-top)) max(3px, env(safe-area-inset-bottom)); }
+  .immersive .dPad { grid-template-columns: repeat(3, 34px); grid-template-rows: repeat(2, 31px); }
+  .immersive .dPad button { min-width: 34px; min-height: 31px; }
+  .immersive .interactButton { min-height: 36px; }
+}
+
+/* One screen, with shared physical controls on the surrounding console. */
+.immersive.game { padding: 0; gap: 0; width: 100%; background: #11182b; }
+.immersive .header, .immersive .journal, .immersive .gameBottom, .immersive .welcomeTag, .immersive .mapBadge { display: none; }
+.immersive .introRow { min-height: 40px; padding: 5px 12px; background: #222a43; border-bottom: 2px solid #4e485f; }
+.immersive .progress { background: transparent; border: 0; font: 700 12px ui-monospace, monospace; }
+.immersive .playArea { display: flex; min-height: 0; }
+.immersive .sceneFrame { width: 100%; border: 0; border-radius: 0; background: #101627; }
+.immersive .canvas { width: 100%; height: 100%; object-fit: contain; object-position: center !important; }
+.immersive .dialogue { position: absolute; z-index: 4; left: 10px; right: 10px; bottom: 10px; max-height: 70%; overflow: auto; border-radius: 3px; }
+.immersive .dialogueAvatar { display: none; }
+.immersive .pausedNote { position: absolute; inset: 40% 10% auto; border: 2px solid #c9c3db; z-index: 5; padding: 20px; }
